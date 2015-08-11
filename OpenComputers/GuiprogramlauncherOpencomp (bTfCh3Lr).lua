@@ -1,6 +1,7 @@
 --Gangsir's gui Program launcher
 --To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder.
 --his gui program can be found at https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua
+--Place this library in the /lib folder of the computer.
 --then, add my three programs, midpoint, distance and volume to the /prog folder. You will need to create this.
 --This program was made to run with a tier 2 graphics card and screen. Must have touch capabilities.
 
