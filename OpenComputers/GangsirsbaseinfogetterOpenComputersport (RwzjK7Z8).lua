@@ -43,7 +43,7 @@ end
 if component.isAvailable("drum") then --check if a drum is connected
   print("Extra Utilites(tm) Drum Found.")
   hasDrum=true
-  react = component.drum --access the drum
+  tank = component.drum --access the drum
 end
 
 os.sleep(2) --sleep to allow reading of init page
