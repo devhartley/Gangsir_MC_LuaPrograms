@@ -23,18 +23,18 @@ local totalPow = 0
 print("Base info running...") --intro screen
 print("Initialising program and scanning components...")
 --Check for connected components.
-if not component.br_reactor == nil then --check if a reactor is connected
+if not component.isAvailable("br_reactor") then --check if a reactor is connected
   print("Big Reactors(tm) Reactor found.")
   hasReactor=true
   react = component.br_reactor --access the reactor
 end
 --check if power storage is connected
-if not component.tile_blockcapacitorbank_name == nil then
+if not component.isAvailable("tile_blockcapacitorbank_name") then
   print("Ender IO(tm) Capacitor bank found.")
   cap1 = component.tile_blockcapacitorbank_name
   hasPowerBank =true
 end
-if not component.basic_energy_cube == nil then
+if not component.isAvailable("basic_energy_cube") then
   print("Mekanism(tm) energy cube found.")
   cap1 = component.basic_energy_cube
   hasPowerBank =true
