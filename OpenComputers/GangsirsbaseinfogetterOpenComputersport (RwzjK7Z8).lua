@@ -14,7 +14,6 @@ hasPowerBank = false
 hasReactor = false
 hasDrum=false
 
-
 --begin program
 local pargs = {...}
 local refreshrate=pargs[1] or 5 --allows setting to a lower refresh rate to reduce strain, 5 if not specified
@@ -39,11 +38,36 @@ if component.isAvailable("basic_energy_cube") then
   cap1 = component.basic_energy_cube
   hasPowerBank =true
 end
+if component.isAvailable("advanced_energy_cube") then
+  print("Mekanism(tm) energy cube found.")
+  cap1 = component.advanced_energy_cube
+  hasPowerBank =true
+end
+if component.isAvailable("elite_energy_cube") then
+  print("Mekanism(tm) energy cube found.")
+  cap1 = component.elite_energy_cube
+  hasPowerBank =true
+end
+if component.isAvailable("ultimate_energy_cube") then
+  print("Mekanism(tm) energy cube found.")
+  cap1 = component.ultimate_energy_cube
+  hasPowerBank =true
+end
 --Check if a tank is connected
 if component.isAvailable("drum") then --check if a drum is connected
   print("Extra Utilites(tm) Drum Found.")
   hasDrum=true
   tank = component.drum --access the drum
+end
+if component.isAvailable("tank") then --check if a drum is connected
+  print("Ender IO(tm) Fluid tank Found.")
+  hasDrum=true
+  tank = component.tank --access the tank
+end
+if component.isAvailable("portable_tank") then --check if a drum is connected
+  print("Mekanism(tm) portable tank Found.")
+  hasDrum=true
+  tank = component.portable_tank --access the tank
 end
 
 os.sleep(2) --sleep to allow reading of init page
@@ -93,7 +117,7 @@ function alerts() --shows any problems with connected components
   end
  end
  if hasPowerBank then --only alert if power bank is present
-  if cap1.getEnergyStored()<1000000 then --if capacitor bank is nearly empty
+  if cap1.getEnergyStored()<(cap1.getMaxEnergyStored()/10) then --if capacitor bank is nearly empty, <10% left
    term.setCursor(1,9)
    print("Power Storage is low!")
    require("computer").beep(100,2)
