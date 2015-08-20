@@ -25,6 +25,7 @@ for w = 1, width do
    for u = 1,blocksUp do
     robot.down()
    end
+   blocksUp=0
   end
  end
  robot.turnRight()
