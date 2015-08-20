@@ -30,7 +30,7 @@ This is a big reactor controller, for a power outputting reactor. It turns it of
 
 ***-Computercraft tank analyser***
 
-This is a program to scan a tank's info and print it. Prints the liquid in the tank, the amount in mb, and the percentage full. Only supports extra utilies drums.
+This is a program to scan a tank's info and print it. Prints the liquid in the tank, the amount in mb, and the percentage full. Only supports extra utilities drums.
 
 ***-Display metbods of a block***
 Program takes a peripheral on the arguments-specified side of the computer and gives all methods of that block to an attached monitor on the left.
@@ -45,7 +45,7 @@ This is an OpenComputers port of my old base manager for Computercraft. This pro
 
 ***-GUI Program launcher***
 
-This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry. The programs are distance, midpoint, and volume, and are included in the repository with this program. To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder. His gui program is called [SOCGUIF.](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua) Place this library in the /lib folder of the computer. The library should be called `GUI.lua`.
+This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry. The programs are distance, midpoint, and volume, and are included in the repository with this program. To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder. His gui program is called [SOCGUIF.](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua) Place this library in the /lib folder of the computer. The library should be called `GUI.lua`. Then, place the 3 small programs in the /prog folder of the computer, you will need to create this yourself.
 
 ***-OpenComputers Big reactor controller***
 
