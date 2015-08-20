@@ -1,18 +1,22 @@
---Gangsir's base info getter OpenComputers port
---This program can monitor and manage a big Reactors reactor, a extra utilites drum, and or Mekanism/Ender IO power storage.
---Not all must be connected, as the program will limit itself to only what is present.
---Needs at least 1.5 tier RAM.
+--[[
+Gangsir's base info getter OpenComputers port
+Not all must be connected, as the program will limit itself to only what is present.
+Needs at least 1.5 tier RAM.
+--]]
 
+--requires
 local term = require("term")
 local component = require("component")
-react = nil
 local os = require("os")
+
+--component connected variables
+react = nil
 cap1 = nil
 tank = nil
---component connected variables
 hasPowerBank = false
 hasReactor = false
-hasDrum=false
+hasTank=false
+xres,yres = component.gpu.getResolution() --get the resolution of the current setup
 
 --begin program
 local pargs = {...}
@@ -34,39 +38,39 @@ if component.isAvailable("tile_blockcapacitorbank_name") then
   hasPowerBank =true
 end
 if component.isAvailable("basic_energy_cube") then
-  print("Mekanism(tm) energy cube found.")
+  print("Mekanism(tm) basic energy cube found.")
   cap1 = component.basic_energy_cube
   hasPowerBank =true
 end
 if component.isAvailable("advanced_energy_cube") then
-  print("Mekanism(tm) energy cube found.")
+  print("Mekanism(tm) advanced energy cube found.")
   cap1 = component.advanced_energy_cube
   hasPowerBank =true
 end
 if component.isAvailable("elite_energy_cube") then
-  print("Mekanism(tm) energy cube found.")
+  print("Mekanism(tm) elite energy cube found.")
   cap1 = component.elite_energy_cube
   hasPowerBank =true
 end
 if component.isAvailable("ultimate_energy_cube") then
-  print("Mekanism(tm) energy cube found.")
+  print("Mekanism(tm) ultimate energy cube found.")
   cap1 = component.ultimate_energy_cube
   hasPowerBank =true
 end
 --Check if a tank is connected
 if component.isAvailable("drum") then --check if a drum is connected
-  print("Extra Utilites(tm) Drum Found.")
-  hasDrum=true
+  print("Extra Utilites(tm) drum found.")
+  hasTank=true
   tank = component.drum --access the drum
 end
-if component.isAvailable("tank") then --check if a drum is connected
-  print("Ender IO(tm) Fluid tank Found.")
-  hasDrum=true
+if component.isAvailable("tank") then --check if a tank is connected
+  print("Ender IO(tm) fluid tank Found.")
+  hasTank=true
   tank = component.tank --access the tank
 end
-if component.isAvailable("portable_tank") then --check if a drum is connected
+if component.isAvailable("portable_tank") then --check if a portable tank is connected
   print("Mekanism(tm) portable tank Found.")
-  hasDrum=true
+  hasTank=true
   tank = component.portable_tank --access the tank
 end
 
@@ -152,6 +156,6 @@ while true do
  refresh()
  alerts()
  if hasReactor then manageReactor() end --manage the reactor, making sure no power is wasted
- if hasDrum then scanTank() end --scan and print info about the attached drum.
+ if hasTank then scanTank() end --scan and print info about the attached drum.
 end
 --eof
