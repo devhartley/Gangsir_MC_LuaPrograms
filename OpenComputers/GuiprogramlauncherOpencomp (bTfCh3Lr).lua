@@ -1,8 +1,7 @@
 --Gangsir's gui Program launcher
---To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder.
+--To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder, or /usr/lib.
 --his gui program can be found at https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua
 --Place this library in the /lib folder of the computer.
---then, add my three programs, midpoint, distance and volume to the /prog folder. You will need to create this.
 --This program was made to run with a tier 2 graphics card and screen. Must have touch capabilities.
 
 gui = require("SOCGUIF")
@@ -10,15 +9,33 @@ computer = require("computer")
 term = require("term")
 os = require("os")
 guix, guiy = require("component").gpu.getResolution() --size of screen
-
+--set up main window
 mainwindow = window(point(0,0),guix,guiy,"Main",0x000000,0x000000)
 table.insert(windowTable,mainwindow)
 
-
+--define functions
 function midpoint() --runs my midpoint program
  computer.beep()
  term.clear()
- os.execute("/prog/midpoint.lua")
+ --first point
+ print("First X coord?")
+ local x1 = tonumber(require("term").read())
+ print("First y coord?")
+ local y1 = tonumber(require("term").read())
+ print("First z coord?")
+ local z1 = tonumber(require("term").read())
+ --second point
+ print("Second x coord?")
+ local x2 = tonumber(require("term").read())
+ print("Second y coord?")
+ local y2 = tonumber(require("term").read())
+ print("Second z coord?")
+ local z2 = tonumber(require("term").read())
+ --calculations
+ midX = (x2-x1)/2
+ midY = (y2-y1)/2
+ midZ = (z2-z1)/2
+ print("The midpoint between ("..x1..","..y1..","..z1..") and ("..x2..","..y2..","..z2..") is ("..midX..","..midY..","..midZ..")")
  print("Press [Enter] when done reading result.")
  term.read() --pause so result can be read
 end
@@ -26,7 +43,21 @@ end
 function distance() --runs my distance program.
  computer.beep()
  term.clear()
- os.execute("/prog/distance.lua")
+ print("Enter x1.")
+ local x1 = tonumber(term.read())
+ print("Enter X2.")
+ local x2 = tonumber(term.read())
+ print("Enter y1.")
+ local y1 = tonumber(term.read())
+ print("Enter y2.")
+ local y2 = tonumber(term.read())
+ print("Enter z1.")
+ local z1 = tonumber(term.read())
+ print("Enter z2.")
+ local z2 = tonumber(term.read())
+ local math = require("math")
+ distance = math.sqrt(((x2-x1)^2)+((y2-y1)^2)+((z2-z1)^2)) --calculate distance using 3d distance formula
+ print("The distance from ("..x1..","..y1..","..z1..") and ("..x2..","..y2..","..z2..") is "..distance.." blocks.")
  print("Press [Enter] when done reading result.")
  term.read()
 end
@@ -34,7 +65,14 @@ end
 function volume() --runs my volume program
  computer.beep()
  term.clear()
- os.execute("/prog/volume.lua")
+ print("(X) length of the rectangular prism?")
+ local xLength = require("term").read()
+ print("(Z) depth of the rectangular prism?")
+ local zLength = require("term").read()
+ print("(Y) height of the rectangular prism?")
+ local yHeight = require("term").read()
+ volume = xLength*yHeight*zLength
+ print("There are/is "..volume.." block(s) in the "..xLength.."x"..zLength.."x"..yHeight.." space defined.")
  print("Press [Enter] when done reading result.")
  term.read()
 end
