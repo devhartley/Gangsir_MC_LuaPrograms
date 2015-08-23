@@ -39,7 +39,7 @@ if component.isAvailable("modem") then
   modem.open(port)
   modem.setStrength(400)
   print("Waiting for tablet client to send address. Please run the client on your tablet.")
-  local _,_,_,_,message = require("event").pull("modem") --waits for the tablet message
+  local _,_,_,_,_,message = require("event").pull("modem") --waits for the tablet message
   tabletAddress = message --sets the client's address
   os.sleep(1)
   print("Sending self address back to tablet...")
@@ -114,7 +114,7 @@ function scanTank()
   pcall(function() amount = info[1]["contents"]["amount"] end) --gets the amount of liquid in millibuckets
   local contentName = "Current tank contents: "..tostring(name)
   print(contentName) --prints out the name of the tank's contents
-  if hasModem then modem.send(tabletAddress,port,) end --Send the tank's liquid content
+  if hasModem then modem.send(tabletAddress,port,contentName) end --Send the tank's liquid content
   term.setCursor(1,13)
   local amountS = "Amount: "..tostring(amount).."/"..tostring(info[1]["capacity"])
   if hasModem then modem.send(tabletAddress,port,amountS) end --Send the tank's liquid content
@@ -143,7 +143,7 @@ function alerts() --shows any problems with connected components
   if react.getFuelAmount() < react.getFuelAmountMax()-react.getWasteAmount() then
    term.setCursor(1,8)
    print("Reactor needs fuel!") --if the reactor is low on fuel, or very full of waste
-   require("computer").beep(100,2) --beep to alert players
+   require("computer").beep(100,1) --beep to alert players
    if hasModem then modem.send(tabletAddress,port,"REACTOR NEEDS FUEL") end --alerts the tablet user that the reactor needs fuel
   end
  end
@@ -151,7 +151,7 @@ function alerts() --shows any problems with connected components
   if cap1.getEnergyStored()<(cap1.getMaxEnergyStored()/10) then --if capacitor bank is nearly empty, <10% left
    term.setCursor(1,9)
    print("Power Storage is low!")
-   require("computer").beep(100,2)
+   require("computer").beep(100,1)
    if hasModem then modem.send(tabletAddress,port,"POWER STORAGE LOW") end --alerts the tablet user that the reactor needs fuel
   end
  end
@@ -161,9 +161,10 @@ function refresh() --refreshes the screen with new data
  if hasReactor and hasPowerBank then
   totalPow = cap1.getEnergyStored()+react.getEnergyStored()
   term.setCursor(1,4)
+  if hasModem then modem.send(tabletAddress,port,"\n\n+++++++++++++++") end
   local totalPowS = "Total Power: "..totalPow
   print(totalPowS)
-  if hasModem then modem.send(tabletAddress,port,totalPowS.."\n\n") end
+  if hasModem then modem.send(tabletAddress,port,totalPowS) end
  end
  if hasReactor then
   term.setCursor(1,1)
