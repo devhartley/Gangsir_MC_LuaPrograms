@@ -45,7 +45,7 @@ This is an OpenComputers port of my old base manager for Computercraft. This pro
 
 ***-GUI Program launcher***
 
-This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry. The programs are distance, midpoint, and volume, and are included in the program. To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder. His gui program is called [SOCGUIF.](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua) Place this library in the /lib folder of the computer. The library should be called `GUI.lua`.
+This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry. The programs are distance, midpoint, and volume, and are included in the program. To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder. His gui program is called [SOCGUIF](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua). Place this library in the /lib folder of the computer. The library should be called `GUI.lua`.
 
 
 ***-OpenComputers Big reactor controller***
@@ -61,3 +61,13 @@ This is a small program to automatically make TConstruct jerky out of meats. Thi
 *This program is currently a WIP and probably won't work. I will update documentation when it is finished and tested.*
 
 This is a program to make a robot dig out a room underground. On run, it will ask the user for the size of the room to be dug out. Ensure that the robot is in the lower left corner, facing the room direction.
+
+***-Wireless Command Sender***
+
+**Warning: Both this program and my wireless receiver program are potential security hazards on large servers. Finding out the port someone is using for this will allow for command-jacking, which can be a serious computer threat. Use with caution.**
+
+This is a program to use a Wireless network card to send commands to a computer running the receiver program, and have it executed. It takes 3 arguments: The address of the receiving computer, the port to use, and optionally the signal strength to use. The program also listens for a reply from the target, to ensure the connection went through.
+
+***-Wireless Command Receiver***
+
+This is the mirror program to my WCS, receiving the commands and executing them. It takes one argument, the port to listen on.
