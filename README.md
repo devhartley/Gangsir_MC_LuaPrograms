@@ -71,3 +71,7 @@ This is a program to use a Wireless network card to send commands to a computer 
 ***-Wireless Command Receiver***
 
 This is the mirror program to my WCS, receiving the commands and executing them. It takes one argument, the port to listen on.
+
+***-Base info getter tablet client***
+
+This is a tablet client that receives info from a base info computer and displays it on the tablet. Must be run with my base info getter, and tablet must contain a wireless network card.

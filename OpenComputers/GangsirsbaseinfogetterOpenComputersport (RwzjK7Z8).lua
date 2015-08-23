@@ -2,21 +2,27 @@
 Gangsir's base info getter OpenComputers port
 Not all must be connected, as the program will limit itself to only what is present.
 Needs at least 1.5 tier RAM.
+Uses port 21481 by default.
 --]]
 
 --requires
 local term = require("term")
 local component = require("component")
 local os = require("os")
+port = 21481 --port the wireless part should use
 
 --component connected variables
 react = nil
 cap1 = nil
 tank = nil
+modem = nil
 hasPowerBank = false
 hasReactor = false
 hasTank=false
-xres,yres = component.gpu.getResolution() --get the resolution of the current setup
+hasModem = false
+tabletAddress = ""
+
+xres,yres = component.gpu.getResolution() --get the resolution of the current setup <unused>
 
 --begin program
 local pargs = {...}
@@ -26,6 +32,19 @@ local totalPow = 0
 print("Base info running...") --intro screen
 print("Initialising program and scanning components...")
 --Check for connected components.
+if component.isAvailable("modem") then
+  print("Network Card found. Note:Do not include a wireless card unless trying to use my tablet client, will cause issues.")
+  hasModem = true
+  modem = component.modem
+  modem.open(port)
+  modem.setStrength(400)
+  print("Waiting for tablet client to send address. Please run the client on your tablet.")
+  local _,_,_,_,message = require("event").pull("modem") --waits for the tablet message
+  tabletAddress = message --sets the client's address
+  os.sleep(1)
+  print("Sending self address back to tablet...")
+  modem.send(tabletAddress,port,"*") --sends self address, so tablet can stop broadcasting
+end
 if component.isAvailable("br_reactor") then --check if a reactor is connected
   print("Big Reactors(tm) Reactor found.")
   hasReactor=true
@@ -91,13 +110,19 @@ function scanTank()
    term.setCursor(1,11)
    print("Tank is Empty.")
   else --if the tank has a liquid in it
-   term.setCursor(1,12)
-   pcall(function() amount = info[1]["contents"]["amount"] end) --gets the amount of liquid in millibuckets
-   print("Current tank contents: "..name) --prints out the name of the tank's contents
-   term.setCursor(1,13)
-   print("Amount: "..tostring(amount).."/"..tostring(info[1]["capacity"]))
-   term.setCursor(1,14)
-   print("Percent Filled: "..tostring((amount / info[1]["capacity"] )*100).."%")
+  term.setCursor(1,12)
+  pcall(function() amount = info[1]["contents"]["amount"] end) --gets the amount of liquid in millibuckets
+  local contentName = "Current tank contents: "..tostring(name)
+  print(contentName) --prints out the name of the tank's contents
+  if hasModem then modem.send(tabletAddress,port,) end --Send the tank's liquid content
+  term.setCursor(1,13)
+  local amountS = "Amount: "..tostring(amount).."/"..tostring(info[1]["capacity"])
+  if hasModem then modem.send(tabletAddress,port,amountS) end --Send the tank's liquid content
+  print(amountS) --print the data about the amount of liquid
+  term.setCursor(1,14)
+  local percentFilled = "Percent Filled: "..tostring((amount / info[1]["capacity"] )*100).."%"
+  print(percentFilled)
+  if hasModem then modem.send(tabletAddress,port,percentFilled) end --Send the tank's liquid content
   end
 end
 
@@ -113,11 +138,13 @@ end
 function alerts() --shows any problems with connected components
  term.setCursor(1,6)
  print("Alerts: ----------------")
+ if hasModem then modem.send(tabletAddress,port,"Alerts: ----------------") end
  if hasReactor then --only alert if reactor is present
   if react.getFuelAmount() < react.getFuelAmountMax()-react.getWasteAmount() then
    term.setCursor(1,8)
    print("Reactor needs fuel!") --if the reactor is low on fuel, or very full of waste
    require("computer").beep(100,2) --beep to alert players
+   if hasModem then modem.send(tabletAddress,port,"REACTOR NEEDS FUEL") end --alerts the tablet user that the reactor needs fuel
   end
  end
  if hasPowerBank then --only alert if power bank is present
@@ -125,6 +152,7 @@ function alerts() --shows any problems with connected components
    term.setCursor(1,9)
    print("Power Storage is low!")
    require("computer").beep(100,2)
+   if hasModem then modem.send(tabletAddress,port,"POWER STORAGE LOW") end --alerts the tablet user that the reactor needs fuel
   end
  end
 end
@@ -133,19 +161,29 @@ function refresh() --refreshes the screen with new data
  if hasReactor and hasPowerBank then
   totalPow = cap1.getEnergyStored()+react.getEnergyStored()
   term.setCursor(1,4)
-  print("Total Power: "..totalPow)
+  local totalPowS = "Total Power: "..totalPow
+  print(totalPowS)
+  if hasModem then modem.send(tabletAddress,port,totalPowS.."\n\n") end
  end
  if hasReactor then
   term.setCursor(1,1)
-  print("Reactor Power: "..react.getEnergyStored())
+  local reactPow = "Reactor Power: "..react.getEnergyStored()
+  print(reactPow)
+  if hasModem then modem.send(tabletAddress,port,reactPow) end
   term.setCursor(1,2)
-  print("Reactor Activated: "..tostring(react.getActive()))
+  local reactOn = "Reactor Activated: "..tostring(react.getActive())
+  print(reactOn)
+  if hasModem then modem.send(tabletAddress,port,reactOn) end
   term.setCursor(1,5)
-  print("Current power per tick: "..react.getEnergyProducedLastTick())
+  local currentPowerTick = "Current power per tick: "..react.getEnergyProducedLastTick()
+  print(currentPowerTick)
+  if hasModem then modem.send(tabletAddress,port,currentPowerTick) end
  end
  if hasPowerBank then
   term.setCursor(1,3)
-  print("Power Storage: "..cap1.getEnergyStored())
+  local powerStore = "Power Storage: "..cap1.getEnergyStored()
+  print(powerStore)
+  if hasModem then modem.send(tabletAddress,port,powerStore) end
  end
 end
 
