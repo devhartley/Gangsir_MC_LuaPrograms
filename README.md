@@ -41,7 +41,7 @@ Program takes a peripheral on the arguments-specified side of the computer and g
 
 ***-Gangsir's base info getter***
 
-This is an OpenComputers port of my old base manager for Computercraft. This program scans and manages a reactor, a power bank of some sort, (Mekanism, Ender IO) and a tank. (Mekanism portable tanks, drums, or Ender IO tanks) This is my most frequently updated program.
+This is an OpenComputers port of my old base manager for Computercraft. This program scans and manages a reactor, a power bank of some sort, (Mekanism, Ender IO) and a tank. (Mekanism portable tanks, drums, or Ender IO tanks) This is my most frequently updated program. This program can be used with my tablet client, found at my [Github](https://github.com/NoahNMorton/MinecraftLuaPrograms). Both this and my table client use port `21481`.
 
 ***-GUI Program launcher***
 
@@ -74,4 +74,4 @@ This is the mirror program to my WCS, receiving the commands and executing them.
 
 ***-Base info getter tablet client***
 
-This is a tablet client that receives info from a base info computer and displays it on the tablet. Must be run with my base info getter, and tablet must contain a wireless network card.
+This is a tablet client that receives info from a base info computer and displays it on the tablet. Must be run with my base info getter, and tablet/controller must contain a wireless network card. In order to keep persistence, will write the home address of the home computer running the base controller to file, allowing for it to pick up from where it left off without having to reset both programs. `The file is written at /usr/misc/homeAddress.txt`
