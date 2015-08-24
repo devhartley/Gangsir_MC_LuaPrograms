@@ -36,6 +36,7 @@ end
 os.sleep(2)
 term.clear()
 while true do --keep recieving info and displaying it
-  local _,_,_,_,_,message = event.pull("modem")
+  local _,_,_,_,_,message,clear = event.pull("modem")
   print(message)
+  if clear ~= nil and clear == true then os.execute(clear) end --Allows home to clear tablet terminal
 end

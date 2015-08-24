@@ -161,7 +161,7 @@ function refresh() --refreshes the screen with new data
  if hasReactor and hasPowerBank then
   totalPow = cap1.getEnergyStored()+react.getEnergyStored()
   term.setCursor(1,4)
-  if hasModem then modem.send(tabletAddress,port,"\n\n+++++++++++++++") end
+  if hasModem then modem.send(tabletAddress,port,"\n\n+++++++++++++++",true) end --note the new start of info, clear the tablet
   local totalPowS = "Total Power: "..totalPow
   print(totalPowS)
   if hasModem then modem.send(tabletAddress,port,totalPowS) end
