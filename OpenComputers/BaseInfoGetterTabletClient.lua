@@ -36,7 +36,9 @@ end
 os.sleep(2)
 term.clear()
 while true do --keep recieving info and displaying it
-  local _,_,_,_,_,message,clear = event.pull("modem")
-  print(message)
+  local _,_,_,_,_,message,clear,beep = event.pull("modem")
+  print(message) --print received data to screen
+  --evaluate extra actions
   if clear == true then os.execute("clear") end --Allows home to clear tablet terminal
+  if beep == true then require("computer").beep(100,1) end --beeps to alert user if alert is present
 end

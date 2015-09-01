@@ -129,7 +129,7 @@ function alerts() --shows any problems with connected components
    term.setCursor(1,8)
    print("Reactor needs fuel!") --if the reactor is low on fuel, or very full of waste
    require("computer").beep(100,1) --beep to alert players
-   if hasModem then modem.send(tabletAddress,port,"REACTOR NEEDS FUEL") end --alerts the tablet user that the reactor needs fuel
+   if hasModem then modem.send(tabletAddress,port,"REACTOR NEEDS FUEL",false,true) end --alerts the tablet user that the reactor needs fuel
   end
  end
  if hasPowerBank then --only alert if power bank is present
@@ -137,7 +137,7 @@ function alerts() --shows any problems with connected components
    term.setCursor(1,9)
    print("Power Storage is low!")
    require("computer").beep(100,1)
-   if hasModem then modem.send(tabletAddress,port,"POWER STORAGE LOW") end --alerts the tablet user that the reactor needs fuel
+   if hasModem then modem.send(tabletAddress,port,"POWER STORAGE LOW",false,true) end --alerts the tablet user that the reactor needs fuel
   end
  end
 end
