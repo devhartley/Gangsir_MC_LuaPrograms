@@ -21,7 +21,7 @@ hasReactor = false
 hasTank=false
 hasModem = false
 tabletAddress = ""
-
+filePath = "/usr/misc/clientAddress.txt"
 xres,yres = component.gpu.getResolution() --get the resolution of the current setup <unused>
 
 --begin program
@@ -38,13 +38,7 @@ if component.isAvailable("modem") then
   modem = component.modem
   modem.open(port)
   modem.setStrength(400)
-  --todo perhaps add a way for baseinfo to pull/push pre-existing tablet address from/to file
-  print("Waiting for tablet client to send address. Please run the client on your tablet.")
-  local _,_,_,_,_,message = require("event").pull("modem") --waits for the tablet message
-  tabletAddress = message --sets the client's address
-  os.sleep(1)
-  print("Sending self address back to tablet...")
-  modem.send(tabletAddress,port,"*") --sends self address, so tablet can stop broadcasting
+  setupTablet()
 end
 if component.isAvailable("br_reactor") then --check if a reactor is connected
   print("Big Reactors(tm) Reactor found.")
@@ -83,6 +77,30 @@ end
 
 os.sleep(2) --sleep to allow reading of init page
 --Define functions
+
+function setupTablet()
+  print("Checking for pre-existing tablet...")
+  if require("filesystem").exists(filePath) then
+   print("Tablet address found.")
+   local file = assert(io.open(filePath,"r"),"Failed to open existing file. Things won't work.")
+   tabletAddress = file:read() --grab the home address from the file.
+   file:close()
+  else
+   print("Finding tablet...") --gets the address of the new computer home
+   print("Waiting for tablet client to send address. Please run the client on your tablet.")
+   local _,_,sender,_,_,message = require("event").pull("modem") --waits for the tablet message
+   tabletAddress = message --sets the client's address
+   os.sleep(1)
+   print("Sending self address back to tablet...")
+   modem.send(tabletAddress,port,"*") --sends self address, so tablet can stop broadcasting
+   print("Tablet acquired. Address is "..sender)
+   tabletAddress = tostring(sender)
+   local file = assert(io.open(filePath,"w"),"Failed to open new file. Things won't work.")
+   assert(file:write(sender)) --writes home to file, for persistance.
+   file:close()
+   print("New client written to file.")
+  end
+end
 
 function scanTank()
   term.setCursor(1,11)
@@ -154,9 +172,9 @@ function refresh() --refreshes the screen with new data
   local totalPowS = "Total Power: "..totalPow
   print(totalPowS)
   if hasModem then modem.send(tabletAddress,port,totalPowS) end
-else
+ else
   if hasModem then modem.send(tabletAddress,port,"",true) end --else, just clear
-end
+ end
  if hasReactor then
   term.setCursor(1,1)
   local reactPow = "Reactor Power: "..react.getEnergyStored()
