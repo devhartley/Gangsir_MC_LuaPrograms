@@ -38,6 +38,7 @@ if component.isAvailable("modem") then
   modem = component.modem
   modem.open(port)
   modem.setStrength(400)
+  --todo perhaps add a way for baseinfo to pull/push pre-existing tablet address from/to file
   print("Waiting for tablet client to send address. Please run the client on your tablet.")
   local _,_,_,_,_,message = require("event").pull("modem") --waits for the tablet message
   tabletAddress = message --sets the client's address
@@ -56,10 +57,12 @@ if component.isAvailable("tile_blockcapacitorbank_name") then
   cap1 = component.tile_blockcapacitorbank_name
   hasPowerBank =true
 end
-if component.list("energy_cube") ~= nil then
-  print("Mekanism(tm) basic energy cube found.")
-  cap1 = component.list("energy_cube")
-  hasPowerBank =true
+--find mekanism energy cubes, as power storage
+for tempaddress,type in component.list("energy_cube") do ecAdd = tempaddress end --check for anything called energy_cube
+if ecAdd ~= nil then
+  cap1 = component.proxy(ecAdd)
+  hasPowerBank = true
+  print("Mekanism(tm) energy cube found.")
 end
 --Check if a tank is connected
 if component.isAvailable("drum") then --check if a drum is connected
@@ -94,6 +97,7 @@ function scanTank()
   if name == nil then --if tank liquid name is nil, thus is empty/invalid fluid
    term.setCursor(1,11)
    print("Tank is Empty.")
+   if hasModem then modem.send(tabletAddress,port,"Tank Empty.") end
   else --if the tank has a liquid in it
   term.setCursor(1,12)
   pcall(function() amount = info[1]["contents"]["amount"] end) --gets the amount of liquid in millibuckets
@@ -150,7 +154,9 @@ function refresh() --refreshes the screen with new data
   local totalPowS = "Total Power: "..totalPow
   print(totalPowS)
   if hasModem then modem.send(tabletAddress,port,totalPowS) end
- end
+else
+  if hasModem then modem.send(tabletAddress,port,"",true) end --else, just clear
+end
  if hasReactor then
   term.setCursor(1,1)
   local reactPow = "Reactor Power: "..react.getEnergyStored()
