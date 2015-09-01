@@ -56,24 +56,9 @@ if component.isAvailable("tile_blockcapacitorbank_name") then
   cap1 = component.tile_blockcapacitorbank_name
   hasPowerBank =true
 end
-if component.isAvailable("basic_energy_cube") then
+if component.list("energy_cube") ~= nil then
   print("Mekanism(tm) basic energy cube found.")
-  cap1 = component.basic_energy_cube
-  hasPowerBank =true
-end
-if component.isAvailable("advanced_energy_cube") then
-  print("Mekanism(tm) advanced energy cube found.")
-  cap1 = component.advanced_energy_cube
-  hasPowerBank =true
-end
-if component.isAvailable("elite_energy_cube") then
-  print("Mekanism(tm) elite energy cube found.")
-  cap1 = component.elite_energy_cube
-  hasPowerBank =true
-end
-if component.isAvailable("ultimate_energy_cube") then
-  print("Mekanism(tm) ultimate energy cube found.")
-  cap1 = component.ultimate_energy_cube
+  cap1 = component.list("energy_cube")
   hasPowerBank =true
 end
 --Check if a tank is connected
