@@ -23,7 +23,8 @@ hasTank=false
 hasModem = false
 tabletAddress = ""
 filePath = "/usr/misc/clientAddress.txt"
-xres,yres = component.gpu.getResolution() --get the resolution of the current setup <unused>
+xres,yres = component.gpu.maxResolution() --get the resolution of the current setup <unused>
+component.gpu.setResolution(50,16) --Set the resolution to make text more visible, even on powerful screens.
 
 function setupTablet()
   print("Checking for pre-existing tablet...")
@@ -63,7 +64,7 @@ if component.isAvailable("modem") then
   modem = component.modem
   modem.open(port)
   modem.setStrength(400)
-  setupTablet()
+  setupTablet() --set up the wireless tablet
 end
 if component.isAvailable("br_reactor") then --check if a reactor is connected
   print("Big Reactors(tm) Reactor found.")
@@ -86,6 +87,7 @@ end
 if component.isAvailable("tile_thermalexpansion_cell_basic_name") then --look for thermal expansion power storage
   cap1 = component.tile_thermalexpansion_cell_basic_name
   hasPowerBank = true
+  print("Thermal expansion energy cell found.")
 end
 --Check if a tank is connected
 if component.isAvailable("drum") then --check if a drum is connected
