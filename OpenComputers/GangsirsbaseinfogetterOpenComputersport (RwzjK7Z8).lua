@@ -3,6 +3,7 @@ Gangsir's base info getter OpenComputers port
 Not all must be connected, as the program will limit itself to only what is present.
 Needs at least 1.5 tier RAM.
 Uses port 21481 by default.
+Writes file to /usr/misc/clientAddress.txt by default
 --]]
 
 --requires
@@ -23,6 +24,30 @@ hasModem = false
 tabletAddress = ""
 filePath = "/usr/misc/clientAddress.txt"
 xres,yres = component.gpu.getResolution() --get the resolution of the current setup <unused>
+
+function setupTablet()
+  print("Checking for pre-existing tablet...")
+  if require("filesystem").exists(filePath) then
+   print("Tablet address found.")
+   local file = assert(io.open(filePath,"r"),"Failed to open existing file. Things won't work.")
+   tabletAddress = file:read() --grab the home address from the file.
+   file:close()
+  else
+   print("Finding tablet...") --gets the address of the new computer home
+   print("Waiting for tablet client to send address. Please run the client on your tablet.")
+   local _,_,sender,_,_,message = require("event").pull("modem") --waits for the tablet message
+   tabletAddress = message --sets the client's address
+   os.sleep(1)
+   print("Sending self address back to tablet...")
+   modem.send(tabletAddress,port,"*") --sends self address, so tablet can stop broadcasting
+   print("Tablet acquired. Address is "..sender)
+   tabletAddress = tostring(sender)
+   local file = assert(io.open(filePath,"w"),"Failed to open new file. Things won't work.")
+   assert(file:write(sender)) --writes home to file, for persistance.
+   file:close()
+   print("New client written to file.")
+  end
+end
 
 --begin program
 local pargs = {...}
@@ -58,6 +83,10 @@ if ecAdd ~= nil then
   hasPowerBank = true
   print("Mekanism(tm) energy cube found.")
 end
+if component.isAvailable("tile_thermalexpansion_cell_basic_name") then --look for thermal expansion power storage
+  cap1 = component.tile_thermalexpansion_cell_basic_name
+  hasPowerBank = true
+end
 --Check if a tank is connected
 if component.isAvailable("drum") then --check if a drum is connected
   print("Extra Utilites(tm) drum found.")
@@ -77,31 +106,6 @@ end
 
 os.sleep(2) --sleep to allow reading of init page
 --Define functions
-
-function setupTablet()
-  print("Checking for pre-existing tablet...")
-  if require("filesystem").exists(filePath) then
-   print("Tablet address found.")
-   local file = assert(io.open(filePath,"r"),"Failed to open existing file. Things won't work.")
-   tabletAddress = file:read() --grab the home address from the file.
-   file:close()
-  else
-   print("Finding tablet...") --gets the address of the new computer home
-   print("Waiting for tablet client to send address. Please run the client on your tablet.")
-   local _,_,sender,_,_,message = require("event").pull("modem") --waits for the tablet message
-   tabletAddress = message --sets the client's address
-   os.sleep(1)
-   print("Sending self address back to tablet...")
-   modem.send(tabletAddress,port,"*") --sends self address, so tablet can stop broadcasting
-   print("Tablet acquired. Address is "..sender)
-   tabletAddress = tostring(sender)
-   local file = assert(io.open(filePath,"w"),"Failed to open new file. Things won't work.")
-   assert(file:write(sender)) --writes home to file, for persistance.
-   file:close()
-   print("New client written to file.")
-  end
-end
-
 function scanTank()
   term.setCursor(1,11)
   name = nil
