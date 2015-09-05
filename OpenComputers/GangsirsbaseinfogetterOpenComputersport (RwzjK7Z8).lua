@@ -52,20 +52,22 @@ end
 
 --begin program
 local pargs = {...}
-local refreshrate=pargs[1] or 5 --allows setting to a lower refresh rate to reduce strain, 5 if not specified
+local refreshrate=tonumber(pargs[1]) or 5 --allows setting to a lower refresh rate to reduce strain, 5 if not specified
 local totalPow = 0
 
 print("Base info running...") --intro screen
 print("Initialising program and scanning components...")
 --Check for connected components.
 if component.isAvailable("modem") then
-  print("Network Card found. Note:Do not include a wireless card unless trying to use my tablet client, will cause issues.")
-  hasModem = true
-  modem = component.modem
-  modem.open(port)
-  modem.setStrength(400)
-  setupTablet() --set up the wireless tablet
+  print("Network Card found.")
+   hasModem = true
+   modem = component.modem
+   modem.open(port)
+   setupTablet() --set up the wireless tablet
+   if component.isAvailable("relay") then component.relay.setStrength(400) end --max out the relay
+  end
 end
+
 if component.isAvailable("br_reactor") then --check if a reactor is connected
   print("Big Reactors(tm) Reactor found.")
   hasReactor=true
@@ -174,7 +176,7 @@ function refresh() --refreshes the screen with new data
  if hasReactor and hasPowerBank then
   totalPow = cap1.getEnergyStored()+react.getEnergyStored()
   term.setCursor(1,4)
-  if hasModem then modem.send(tabletAddress,port,"\n\n+++++++++++++++",true) end --note the new start of info, clear the tablet
+  if hasModem then modem.send(tabletAddress,port,"",true) end --note the new start of info, clear the tablet
   local totalPowS = "Total Power: "..totalPow
   print(totalPowS)
   if hasModem then modem.send(tabletAddress,port,totalPowS) end
