@@ -22,7 +22,7 @@ hasReactor = false
 hasTank=false
 hasModem = false
 tabletAddress = ""
-filePath = "/usr/misc/clientAddress.txt" --path to write persistance file to
+filePath = "/usr/misc/clientAddress.txt"
 xres,yres = component.gpu.maxResolution() --get the resolution of the current setup <unused>
 component.gpu.setResolution(50,16) --Set the resolution to make text more visible, even on powerful screens.
 
@@ -50,29 +50,16 @@ function setupTablet()
   end
 end
 
-
+--begin program
 local pargs = {...}
-
 local refreshrate=pargs[1] or 5 --allows setting to a lower refresh rate to reduce strain, 5 if not specified
 local totalPow = 0
---Args for turning off parts of the program ---------------------
-useWireless = true --whether or not program should use wireless if a modem is present
-for i,#pargs do
-  if type(pargs[i])=="number" then --set refreshrate off of args
-    refreshrate = tonumber(pargs[i])
-  end
-  if pargs[i] == "-nw" or "--no-wireless" then --if args contains wireless disabler
-    useWireless = false
-  end
-end
-
-  -----------Program init--------------------------------------
 
 print("Base info running...") --intro screen
 print("Initialising program and scanning components...")
 --Check for connected components.
-if component.isAvailable("modem") and useWireless then
-  print("Network Card found. Note: If you don't want to use the wireless part of the program, add -nw to the arguments.")
+if component.isAvailable("modem") then
+  print("Network Card found. Note:Do not include a wireless card unless trying to use my tablet client, will cause issues.")
   hasModem = true
   modem = component.modem
   modem.open(port)
@@ -97,7 +84,6 @@ if ecAdd ~= nil then
   hasPowerBank = true
   print("Mekanism(tm) energy cube found.")
 end
---thermal expansion energy cells
 if component.isAvailable("tile_thermalexpansion_cell_basic_name") then --look for thermal expansion power storage
   cap1 = component.tile_thermalexpansion_cell_basic_name
   hasPowerBank = true
@@ -188,7 +174,7 @@ function refresh() --refreshes the screen with new data
  if hasReactor and hasPowerBank then
   totalPow = cap1.getEnergyStored()+react.getEnergyStored()
   term.setCursor(1,4)
-  if hasModem then modem.send(tabletAddress,port,"",true) end --clear the tablet
+  if hasModem then modem.send(tabletAddress,port,"\n\n+++++++++++++++",true) end --note the new start of info, clear the tablet
   local totalPowS = "Total Power: "..totalPow
   print(totalPowS)
   if hasModem then modem.send(tabletAddress,port,totalPowS) end
