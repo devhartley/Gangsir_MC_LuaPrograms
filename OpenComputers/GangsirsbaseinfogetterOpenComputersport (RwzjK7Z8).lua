@@ -23,7 +23,7 @@ hasTank=false
 hasModem = false
 tabletAddress = ""
 filePath = "/usr/misc/clientAddress.txt"
-xres,yres = component.gpu.maxResolution() --get the resolution of the current setup <unused>
+--xres,yres = component.gpu.maxResolution() --get the resolution of the current setup <unused>
 component.gpu.setResolution(50,16) --Set the resolution to make text more visible, even on powerful screens.
 
 function setupTablet()
@@ -65,7 +65,6 @@ if component.isAvailable("modem") then
    modem.open(port)
    setupTablet() --set up the wireless tablet
    if component.isAvailable("relay") then component.relay.setStrength(400) end --max out the relay
-  end
 end
 
 if component.isAvailable("br_reactor") then --check if a reactor is connected
@@ -176,12 +175,9 @@ function refresh() --refreshes the screen with new data
  if hasReactor and hasPowerBank then
   totalPow = cap1.getEnergyStored()+react.getEnergyStored()
   term.setCursor(1,4)
-  if hasModem then modem.send(tabletAddress,port,"",true) end --note the new start of info, clear the tablet
   local totalPowS = "Total Power: "..totalPow
   print(totalPowS)
   if hasModem then modem.send(tabletAddress,port,totalPowS) end
- else
-  if hasModem then modem.send(tabletAddress,port,"",true) end --else, just clear
  end
  if hasReactor then
   term.setCursor(1,1)
@@ -209,6 +205,7 @@ while true do
   --get new data for everything
  os.sleep(refreshrate) --sleep for the specified time
  term.clear()
+ if hasModem then modem.send(tabletAddress,port,"",true) end --clear the tablet
  refresh()
  alerts()
  if hasReactor then manageReactor() end --manage the reactor, making sure no power is wasted
