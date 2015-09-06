@@ -45,7 +45,7 @@ This is an OpenComputers port of my old base manager for Computercraft. This pro
 
 ***-GUI Program launcher***
 
-This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry. The programs are distance, midpoint, and volume, and are included in the program. To use, ensure you have the gui library made by sirdabalot for opencomputers in the /lib folder. His gui program is called [SOCGUIF](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua). Place this library in the /lib folder of the computer. The library should be called `GUI.lua`.
+This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry. The programs are distance, midpoint, and volume, and are included in the program. To use, ensure you have the gui library made by `sirdabalot` for opencomputers in the /lib folder. His gui program is called [SOCGUIF](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua). Place this library in the /lib folder of the computer. The library should be called `GUI.lua`.
 
 
 ***-OpenComputers Big reactor controller***
@@ -74,4 +74,11 @@ This is the mirror program to my WCS, receiving the commands and executing them.
 
 ***-Base info getter tablet client***
 
-This is a tablet client that receives info from a base info computer and displays it on the tablet. Must be run with my base info getter, and tablet/controller must contain a wireless network card. In order to keep persistence, will write the home address of the home computer running the base controller to file, allowing for it to pick up from where it left off without having to reset both programs. `The file is written at /usr/misc/homeAddress.txt`
+This is a tablet client that receives info from a base info computer and displays it on the tablet. Must be run with my base info getter, and tablet/controller must contain a wireless network card. In order to keep persistence, will write the home address of the home computer running the base controller to file, allowing for it to pick up from where it left off without having to reset both programs. The file is written at `/usr/misc/homeAddress.txt`
+
+***-Pulse OC Port***
+
+OpenComputers port of pulse by `KingofGamesYami`, who's original thread can be found [here.](http://www.computercraft.info/forums2/index.php?/topic/24500-pulse-it-just-looks-cool/)
+At least tier 2 screen and graphics card required, but use tier 3 for best results.
+This program generates cool looking designs using text.
+Causes high power usage when using tier 3 screens, so plan accordingly, a power converter is recommended.
