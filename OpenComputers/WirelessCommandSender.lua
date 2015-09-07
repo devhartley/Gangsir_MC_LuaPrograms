@@ -1,6 +1,6 @@
 --Opencomputers wireless command sender
 --This is a program to send a command to a computer, and have it executed by my wireless command receiver program
---To use, provide the target address, the port to use, and the signal strength, in that order, in the program args.
+--To use, provide the the port to use, and the signal strength, in that order, in the program args.
 --The strength is 30 unless specified.
 
 local component = require("component")
@@ -8,17 +8,17 @@ local modem = component.modem
 
 pargs = {...}
 
-modem.open(pargs[2])
-modem.setStrength(pargs[3] or 30)
+modem.open(tonumber(pargs[1]))
+modem.setStrength(tonumber(pargs[2]) or 30)
 print("Warning: Using this on a public server may result in someone command-jacking you. Use at your own risk.")
 
 while true do
     print("Command to send?")
     command = require("term").read()
-    sent = modem.send(pargs[1],pargs[2],tostring(command))
+    sent = modem.broadcast(tonumber(pargs[1]),tostring(command))
     if sent then print("Command Sent.") end
 
-    _,sender,_,_,message = event.pull(5,"modem") -- wait 5 secs for reply
+    _,_,sender,_,_,message = require("event").pull(8,"modem") -- wait 8 secs for reply
 
     if message ~= nil then
         print("Confirmation of execution from "..tostring(sender))

@@ -8,14 +8,15 @@ print("Warning: Using this on a public server may result in someone command-jack
 pargs = {...}
 
 modem.close()
-modem.open(pargs[1]) --open the specified port
+modem.open(tonumber(pargs[1])) --open the specified port
 
 while true do
     require("term").clear()
-    _,sender,_,_,message = event.pull("modem") --wait for command
+    _,_,sender,_,_,message = require("event").pull("modem") --wait for command
 
     if message ~= nil then
-        modem.send(sender,pargs[1],"Received.") --send a reply back to the sender.
+        os.sleep(1)
+        modem.send(sender,tonumber(pargs[1]),"Received.") --send a reply back to the sender.
         os.execute(message) --execute the command sent.
     else
         print("An invalid message was received.")
