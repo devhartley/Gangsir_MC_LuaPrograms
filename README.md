@@ -82,3 +82,10 @@ OpenComputers port of pulse by `KingofGamesYami`, who's original thread can be f
 At least tier 2 screen and graphics card required, but use tier 3 for best results.
 This program generates cool looking designs using text.
 Causes high power usage when using tier 3 screens, so plan accordingly, a power converter is recommended.
+
+###OpenComputers Microcontroller Programs
+
+***-S.L.D.R.R.***
+
+Short for Super Long Delay Redstone Repeater, this is a Microcontroller program that makes the Microcontroller work like a vanilla repeater, while being able to reach delays up to 4 mins. To use, place the Microcontroller containing the program. The following directions are from the player's perspective, facing the MC. Imput to start the delay goes in on the left side. Output after the delay comes out the right side. The back is the amount of delay, set by the redstone signal strength, from 0-15. The front is the multiplier, with 1 added. So, for example, 3 in the back and 2 in the front would create a 9 second delay. The formula is:
+`delay = backPower*(frontPower+1)`. The 1 added to the multiplier is to allow lack of a multiplier for a x1 delay. With this, it's possible to get up to 4 mins of delay with full signal in front and back. Of course, you can't get any amount of seconds you want, so fine tuning with repeaters may be necessary. 
