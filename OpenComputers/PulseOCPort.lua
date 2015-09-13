@@ -8,7 +8,6 @@ Press a key to cleanly end the program.
 Char and colour table reading is dynamic, so add more if you want more variety.
 --]]
 
-
 local term = require("term")
 local component = require("component")
 local gpu = component.gpu
@@ -25,10 +24,7 @@ local curCol, incCol, reverse, maxx, maxy = 1, 1, false, gpu.maxResolution()
 local function advClear( c, b, t )
         gpu.setBackground( b ) --set the background colour
         gpu.setForeground( t ) --set the text colour
-        for y = 1, maxy do
-                term.setCursor( 1, y )
-                term.write( c:rep( maxx ) )
-        end
+        term.write( "\n" .. c:rep( maxx ) .. "\n" .. c:rep( maxx ) )
 end
 
 --exits the program cleanly, by returning gpu settings to default.
@@ -49,18 +45,28 @@ print("To exit cleanly once the program starts, press a key.")
 os.sleep(3)
 event.listen("key_up",exitProgram) --register the event listener for a key press
 term.clear()
+term.setCursor(1,maxy)
+
 while running do
-        for theChar = (reverse and #chartbl or 1), (reverse and 1 or #chartbl), (reverse and -1 or 1) do
-                if running then advClear( chartbl[ theChar ], colortbl[ curCol ], colortbl[ curCol + (reverse and -1 or 1) ] ) else break end
-                os.sleep( 0.05 ) --to prevent fail to yield crashes
+      for theChar = 1, #chartbl do
+          if running then
+            advClear( chartbl[ theChar ], colortbl[ curCol ], colortbl[ curCol + (1) ] or colortbl[ 1 ] )
+          else
+            break
+          end
+          os.sleep( 0.05 )
+      end
+      for theChar = #chartbl, 1, -1 do
+        if running then
+          advClear( chartbl[ theChar ], colortbl[ curCol + (1) ] or colortbl[ 1 ], colortbl[ curCol ]  )
+        else
+          break
         end
-        for theChar = (reverse and 1 or #chartbl), (reverse and #chartbl or 1), (reverse and 1 or -1 ) do
-                if running then advClear( chartbl[ theChar ], colortbl[ curCol + (reverse and -1 or 1) ], colortbl[ curCol ]  ) else break end
-                os.sleep( 0.05 )
-        end
-        curCol = curCol + (reverse and -1 or 1)
-        if curCol == 1 or curCol == #colortbl then
-                reverse = not reverse
-        end
+        os.sleep( 0.05 )
+      end
+      curCol = curCol + 1
+      if curCol == #colortbl then
+              curCol = 1
+      end
 end
 --eof
