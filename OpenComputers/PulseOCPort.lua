@@ -18,8 +18,10 @@ running = true --should the program keep running
 local chartbl = {"*","%","@","?","/","&","+","-","!"}
 --list of colours to pick from (Note: Since oc's colours library returns numbers and not hex codes, I made my own)
 local colortbl = { 0x000000, 0xFFFFFF, 0x0000FF, 0x00F2FF, 0x00FFFF, 0x00FF00, 0x3CFF00, 0xEFFF0D, 0xFF04D3, 0xFF0090, 0x660099}
+--list of colours to pick from for text (Note: IF MODIFIED, MUST BE SAME SIZE AS TABLE ABOVE. VERY IMPORTANT!!1!one!!!eins!!!uno!!!)
+local textcolortbl = { 0xC0FF0B, 0xEF13A0, 0xAA20FF, 0xA012FF, 0xD0EFC1, 0x45CC10, 0x365F0F, 0x1AA012, 0xAA04D3, 0xFA60A0, 0xFD31AC}
 
-local curCol, incCol, reverse, maxx, maxy = 1, 1, false, gpu.maxResolution()
+local curCol, maxx, maxy = 1, gpu.maxResolution()
 
 local function advClear( c, b, t )
         gpu.setBackground( b ) --set the background colour
@@ -50,7 +52,7 @@ term.setCursor(1,maxy)
 while running do
       for theChar = 1, #chartbl do
           if running then
-            advClear( chartbl[ theChar ], colortbl[ curCol ], colortbl[ curCol + (1) ] or colortbl[ 1 ] )
+            advClear( chartbl[ theChar ], colortbl[ curCol ], textcolortbl[ curCol + (1) ] or textcolortbl[ 1 ] )
           else
             break
           end
@@ -58,7 +60,7 @@ while running do
       end
       for theChar = #chartbl, 1, -1 do
         if running then
-          advClear( chartbl[ theChar ], colortbl[ curCol + (1) ] or colortbl[ 1 ], colortbl[ curCol ]  )
+          advClear( chartbl[ theChar ], colortbl[ curCol + (1) ] or colortbl[ 1 ], textcolortbl[ curCol ]  )
         else
           break
         end
