@@ -56,12 +56,6 @@ This is an opencomputers port of my Big reactors controller.
 
 This is a small program to automatically make TConstruct jerky out of meats. This program takes a stack of meat and converts it to jerky. Place the meat to be converted in the first slot of the chest, and the drying rack above the chest. Connect the computer to the chest. This program has no check for jerky, so ensure only meats to be converted land in the first slot.
 
-***-OC Robot underground room digger***
-
-*This program is currently a WIP and probably won't work. I will update documentation when it is finished and tested.*
-
-This is a program to make a robot dig out a room underground. On run, it will ask the user for the size of the room to be dug out. Ensure that the robot is in the lower left corner, facing the room direction.
-
 ***-Wireless Command Sender***
 
 **Warning: Both this program and my wireless receiver program are potential security hazards on large servers. Finding out the port someone is using for this will allow for command-jacking, which can be a serious computer threat. Use with caution.**
@@ -83,9 +77,19 @@ At least tier 2 screen and graphics card required, but use tier 3 for best resul
 This program generates cool looking designs using text.
 Causes high power usage when using tier 3 screens, so plan accordingly, a power converter is recommended.
 
+***-Motion sensor base welcomer***
+
+This is a program that uses data from a motion sensor to display a welcome message to the entity that triggered it. Requires a
+motion detector.
+
+***-Screen welcome mat***
+
+This is a program to display a welcome message on a horizontal screen when it is walked on. Will not trigger for other
+entities.
+
 ###OpenComputers Microcontroller Programs
 
 ***-S.L.D.R.R.***
 
 Short for Super Long Delay Redstone Repeater, this is a Microcontroller program that makes the Microcontroller work like a vanilla repeater, while being able to reach delays up to 4 mins. To use, place the Microcontroller containing the program. The following directions are from the player's perspective, facing the MC. Imput to start the delay goes in on the left side. Output after the delay comes out the right side. The back is the amount of delay, set by the redstone signal strength, from 0-15. The front is the multiplier, with 1 added. So, for example, 3 in the back and 2 in the front would create a 9 second delay. The formula is:
-`delay = backPower*(frontPower+1)`. The 1 added to the multiplier is to allow lack of a multiplier for a x1 delay. With this, it's possible to get up to 4 mins of delay with full signal in front and back. Of course, you can't get any amount of seconds you want, so fine tuning with repeaters may be necessary. 
+`delay = backPower*(frontPower+1)`. The 1 added to the multiplier is to allow lack of a multiplier for a x1 delay. With this, it's possible to get up to 4 mins of delay with full signal in front and back. Of course, you can't get any amount of seconds you want, so fine tuning with repeaters may be necessary.
