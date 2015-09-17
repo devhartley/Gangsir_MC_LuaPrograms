@@ -89,10 +89,10 @@ entities.
 
 ***-Simple Sugarcane harvester***
 
-Gangsir's simple Sugarcane harvester robot program. To use, provide the length of the farm in the program arguments.
+Gangsir's simple Sugarcane harvester robot program.
 Robot can be completely tier 1, although at least 1 inventory upgrade is required.
-Chest goes on bottom of robot for output, robot needs to be 1 block off the ground, lined up with Sugarcane column on the right. 
-There should be 2 columns of the same length of sugarcane. Each row should follow the same pattern of WSSW, with the robot below the last row, on the right column.
+Chest goes on bottom of robot for output, robot needs to be 1 block off the ground, lined up with Sugarcane column on the right.
+There should be 2 columns of the same length of sugarcane. Each row should follow the same pattern of WSSW, with the robot below the last row, on the right column. Make sure there are no blocks between the end of the sugarcane and the chest below the robot.
 Light colors are blue for waiting, green for harvesting, and red for dropping items.
 
 ###OpenComputers Microcontroller Programs
