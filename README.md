@@ -87,6 +87,23 @@ motion detector.
 This is a program to display a welcome message on a horizontal screen when it is walked on. Will not trigger for other
 entities.
 
+***-Simple Sugarcane harvester***
+
+Gangsir's simple Sugarcane harvester robot program. To use, provide the length of the farm in the program arguments.
+Robot can be completely tier 1, although at least 1 inventory upgrade is required.
+To set up, place blocks in this configuration:
+R = Robot,S = Sugarcane, W = water, C = charger
+WSSW
+WSSW
+WSSW
+WSSW
+WSSW
+WSSW
+ CR
+(For example, to run the program with this config you would provide 6 for the program argument)
+Chest goes on bottom of robot for output, robot needs to be 1 block off the ground, lined up with Sugarcane column on the right.
+Light colors are blue for waiting, green for harvesting, and red for dropping items.
+
 ###OpenComputers Microcontroller Programs
 
 ***-S.L.D.R.R.***
