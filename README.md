@@ -2,7 +2,8 @@
 A repository of all the lua programs i've written for the OpenComputers and Computercraft mods for Minecraft.
 Computercraft is a mod written by `dan200`, and adds lua based computers into Minecraft. OpenComputers is a mod written by `Sangar`, and works similarly to Computercraft, but with more features.
 
-All of these are mine, however some use APIs written by others. The needed APIs can be found in comments of the program in question, or in the Explanations section for the program below.
+All of these are mine, however some use APIs written by others. The needed APIs can be found in comments of the program in question, or in the Explanations section for the program below. I generally try to avoid using libraries that are not standard
+to openOS.
 
 If you use any of these programs, please follow the MIT license and give credit if using them publicly. Also feel free to modify my programs for *personal use.*
 
@@ -41,11 +42,16 @@ Program takes a peripheral on the arguments-specified side of the computer and g
 
 ***-Gangsir's base info getter***
 
-This is an OpenComputers port of my old base manager for Computercraft. This program scans and manages a reactor, a power bank of some sort, (Mekanism, Ender IO) and a tank. (Mekanism portable tanks, drums, or Ender IO tanks) This is my most frequently updated program. This program can be used with my tablet client, found at my [Github](https://github.com/NoahNMorton/MinecraftLuaPrograms). Both this and my table client use port `21481`.
+This is an OpenComputers port of my old base manager for Computercraft. This program scans and manages a reactor, a power bank of some sort, (Mekanism, Ender IO, Thermal Expansion) and a tank. (Mekanism portable tanks, drums, or Ender IO tanks) This is my most frequently updated program. This program can be used with my tablet client, found at my [Github](https://github.com/NoahNMorton/MinecraftLuaPrograms). Both this and my table client use port `21481`.
 
-***-GUI Program launcher***
+***-Geometry GUI***
 
-This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry. The programs are distance, midpoint, and volume, and are included in the program. To use, ensure you have the gui library made by `sirdabalot` for opencomputers in the /lib folder. His gui program is called [SOCGUIF](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua). Place this library in the /lib folder of the computer. The library should be called `GUI.lua`.
+This is a program meant for tablets that creates a gui that can be used to run 3 smaller programs for calculating geometry.
+The programs are distance, midpoint, and volume, and are included in the program.
+To use, ensure you have the gui library made by `sirdabalot` for opencomputers in the /lib folder. His gui program is called
+[SOCGUIF](https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua). Place this library in the /lib
+folder of the computer. The library should be called `SOCGUIF.lua`, and can be retrieved with the command `wget https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua /lib/SOCGUIF.lua`, if you have an internet
+card.
 
 
 ***-OpenComputers Big reactor controller***
@@ -85,7 +91,7 @@ motion detector.
 ***-Screen welcome mat***
 
 This is a program to display a welcome message on a horizontal screen when it is walked on. Will not trigger for other
-entities.
+entities. Screen must be tier 2+.
 
 ***-Simple Sugarcane harvester***
 
@@ -93,7 +99,7 @@ Gangsir's simple Sugarcane harvester robot program.
 Robot can be completely tier 1, although at least 1 inventory upgrade is required.
 Chest goes on bottom of robot for output, robot needs to be 1 block off the ground, lined up with Sugarcane column on the right.
 There should be 2 columns of the same length of sugarcane. Each row should follow the same pattern of WSSW, with the robot below the last row, on the right column. Make sure there are no blocks between the end of the sugarcane and the chest below the robot.
-Light colors are blue for waiting, green for harvesting, and red for dropping items.
+Light colors are blue for waiting, green for harvesting, yellow for returning to home, and red for dropping items.
 
 ###OpenComputers Microcontroller Programs
 
