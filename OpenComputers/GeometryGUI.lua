@@ -4,11 +4,29 @@
 --Place this library in the /lib folder of the computer.
 --This program was made to run with a tier 2 graphics card and screen. Must have touch capabilities.
 
-gui = require("SOCGUIF")
+gui = nil
 computer = require("computer")
 term = require("term")
 os = require("os")
 guix, guiy = require("component").gpu.getResolution() --size of screen
+
+--check for gui library
+if require("filesystem").exists("/lib/SOCGUIF.lua") then
+  gui = require("SOCGUIF")
+elseif component.isAvailable("internet") then
+  print("Gui lib not found, internet card installed, trying to auto-fetch.")
+  os.execute("wget https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua /lib/SOCGUIF.lua")
+  print("Computer needs to reboot to note changes to available libs, rebooting in 3 seconds...")
+  os.sleep(3)
+  computer.shutdown(true) --reboots the computer
+else
+  error("sirdabalot's GUI framework must be present and available to use this program. Download from his github, and place in /lib, or install an internet card.")
+end
+
+if not require("filesystem").exists("/lib/SOCGUIF.lua") then --if the library is still unloadable
+  error("Still can't load the library, program won't work.")
+end
+
 --set up main window
 mainwindow = window(point(0,0),guix,guiy,"Main",0x000000,0x000000)
 table.insert(windowTable,mainwindow)
