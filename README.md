@@ -101,6 +101,16 @@ Chest goes on bottom of robot for output, robot needs to be 1 block off the grou
 There should be 2 columns of the same length of sugarcane. Each row should follow the same pattern of WSSW, with the robot below the last row, on the right column. Make sure there are no blocks between the end of the sugarcane and the chest below the robot.
 Light colors are blue for waiting, green for harvesting, yellow for returning to home, and red for dropping items.
 
+***-Mob farm redstone controller***
+
+Gangsir's mob farm controller
+Sirdabalot's gui framework required for use. Gui lib can be found at
+`https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua`
+If an internet card is present, the program will auto-fetch it.
+To set up, connect a bundled redstone cable that OC supports to the computer,
+and set colours on other ends to be as follows: Red:Mob spawner, White:Lights, Orange:Door, Black:Killing Method
+I recommend using some type of wireless redstone to avoid having to place cables everywhere.
+
 ###OpenComputers Microcontroller Programs
 
 ***-S.L.D.R.R.***
