@@ -23,7 +23,7 @@ computer = require("computer")
 
 --check if screen is correct, ie tier 2 or greater
 if component.gpu.getDepth() < 4 then
-  error("Screen does not meet graphics requirements.")
+  error("Screen/gpu does not meet graphics requirements.")
 end
 component.gpu.setResolution(80,25) --set the resolution to be correct
 component.screen.setTouchModeInverted(true) --inverts touch mode.
