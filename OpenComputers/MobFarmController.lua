@@ -21,10 +21,11 @@ outputSide = require("sides").bottom --change this if you want to use a differen
 maxX , maxY = component.gpu.maxResolution() --get the size of the resolution
 computer = require("computer")
 
---check if screen is correct
-if component.gpu.getDepth() ~= 4 then
-  error("Screen/gpu does not meet graphics requirements.")
+--check if screen is correct, ie tier 2 or greater
+if component.gpu.getDepth() < 4 then
+  error("Screen does not meet graphics requirements.")
 end
+component.gpu.setResolution(80,25) --set the resolution to be correct
 component.screen.setTouchModeInverted(true) --inverts touch mode.
 
 if not component.isAvailable("redstone") then
