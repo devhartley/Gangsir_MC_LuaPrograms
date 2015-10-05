@@ -39,13 +39,6 @@ os.sleep(1)
 print("Connect bundled redstone cables to mob spawner(red), lights(white), door(orange), and killing method(black). Set each machine to be active on the same type of signal.")
 os.sleep(3)
 
-
---reset outputs
-redstone.setBundledOutput(outputSide,colors.red,0)
-redstone.setBundledOutput(outputSide,colors.white,0)
-redstone.setBundledOutput(outputSide,colors.orange,0)
-redstone.setBundledOutput(outputSide,colors.black,0)
-
 --check for gui library
 if require("filesystem").exists("/lib/SOCGUIF.lua") then
   gui = require("SOCGUIF")
@@ -65,6 +58,29 @@ end
 
 --init all functions
 
+--sets the state of all outputs, returns new output. Provide nil for state if setting to manual value
+local function setAllStates(state,value)
+  if state then
+    redstone.setBundledOutput(outputSide,colors.red,15)
+    redstone.setBundledOutput(outputSide,colors.white,15)
+    redstone.setBundledOutput(outputSide,colors.orange,15)
+    redstone.setBundledOutput(outputSide,colors.black,15)
+    if value == nil then return 15 end
+  if state == false then
+    redstone.setBundledOutput(outputSide,colors.red,0)
+    redstone.setBundledOutput(outputSide,colors.white,0)
+    redstone.setBundledOutput(outputSide,colors.orange,0)
+    redstone.setBundledOutput(outputSide,colors.black,0)
+    if state == nil then return 0 end
+  end
+  if value ~= nil and value < 16 then
+    redstone.setBundledOutput(outputSide,colors.red,value)
+    redstone.setBundledOutput(outputSide,colors.white,value)
+    redstone.setBundledOutput(outputSide,colors.orange,value)
+    redstone.setBundledOutput(outputSide,colors.black,value)
+    return value
+end
+
 --toggles output on specified colour, returns boolean based on success
 local function toggle(color)
   if redstone.getBundledOutput(outputSide,color) == 15 then
@@ -80,16 +96,19 @@ local function toggle(color)
 end
 
 --init gui
+setAllStates(false) --turns all outputs off
 
 window1 = window(point(0,0),maxX,maxY,"Buttons",0xFFFFFF,0x000000) --fill the whole screen with a window
 table.insert(windowTable,window1)
 
 --button args are window,startpoint,width,height,label,forecolour, backcolour,function
-msButton = button(window1,point(5,5),35,10,"Mob Spawner",0x000000,0xFF0000,function() toggle(colors.red) end)
-lightsButton = button(window1,point(35,5),maxX-35,10,"Lights",0x000000,0xFFFFFF,function() toggle(colors.white) end)
-doorButton = button(window1,point(5,15),35,10,"Door",0x000000,0xFF7300,function() toggle(colors.orange) end)
-killButton = button(window1,point(35,15),maxX-35,10,"Kill",0xFFFFFF,0x8E01E8,function() toggle(colors.black) end)
+msButton = button(window1,point(5,2),17,9,"Mob Spawner",0x000000,0xFF0000,function() toggle(colors.red) end) --top left
+lightsButton = button(window1,point(5,14),17,9,"Lights",0x000000,0xFFFFFF,function() toggle(colors.white) end) --bottom left
+doorButton = button(window1,point(27,2),17,9,"Door",0x000000,0x000055,function() toggle(colors.orange) end) --top middle
+killButton = button(window1,point(27,14),17,9,"Kill",0xFFFFFF,0x8E01E8,function() toggle(colors.black) end) --bottom middle
 
+allOn = button(window1,point(48,2),29,9,"All On",0xFFFFFF,0x00FF00,function() setAllStates(true) end)
+allOff = button(window1,point(48,14),29,9,"All Off",0xFFFFFF,0xFF0000,function() setAllStates(false) end)
 
 require("term").clear()
 
