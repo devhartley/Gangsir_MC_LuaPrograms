@@ -37,7 +37,8 @@ end
 print("Init mob farm manager...")
 os.sleep(1)
 print("Connect bundled redstone cables to mob spawner(red), lights(white), door(orange), and killing method(black). Set each machine to be active on the same type of signal.")
-os.sleep(3)
+print("If the gui messes up and starts turning things off and on again quickly, just reboot the computer and script.")
+os.sleep(8)
 
 --check for gui library
 if require("filesystem").exists("/lib/SOCGUIF.lua") then
@@ -66,12 +67,13 @@ local function setAllStates(state,value)
     redstone.setBundledOutput(outputSide,colors.orange,15)
     redstone.setBundledOutput(outputSide,colors.black,15)
     if value == nil then return 15 end
+  end
   if state == false then
     redstone.setBundledOutput(outputSide,colors.red,0)
     redstone.setBundledOutput(outputSide,colors.white,0)
     redstone.setBundledOutput(outputSide,colors.orange,0)
     redstone.setBundledOutput(outputSide,colors.black,0)
-    if state == nil then return 0 end
+    if value == nil then return 0 end
   end
   if value ~= nil and value < 16 then
     redstone.setBundledOutput(outputSide,colors.red,value)
@@ -79,6 +81,7 @@ local function setAllStates(state,value)
     redstone.setBundledOutput(outputSide,colors.orange,value)
     redstone.setBundledOutput(outputSide,colors.black,value)
     return value
+  end
 end
 
 --toggles output on specified colour, returns boolean based on success
@@ -104,7 +107,7 @@ table.insert(windowTable,window1)
 --button args are window,startpoint,width,height,label,forecolour, backcolour,function
 msButton = button(window1,point(5,2),17,9,"Mob Spawner",0x000000,0xFF0000,function() toggle(colors.red) end) --top left
 lightsButton = button(window1,point(5,14),17,9,"Lights",0x000000,0xFFFFFF,function() toggle(colors.white) end) --bottom left
-doorButton = button(window1,point(27,2),17,9,"Door",0x000000,0x000055,function() toggle(colors.orange) end) --top middle
+doorButton = button(window1,point(27,2),17,9,"Door",0x000000,0x0000CC,function() toggle(colors.orange) end) --top middle
 killButton = button(window1,point(27,14),17,9,"Kill",0xFFFFFF,0x8E01E8,function() toggle(colors.black) end) --bottom middle
 
 allOn = button(window1,point(48,2),29,9,"All On",0xFFFFFF,0x00FF00,function() setAllStates(true) end)
