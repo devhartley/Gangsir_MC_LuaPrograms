@@ -66,6 +66,7 @@ local function setAllStates(state,value)
     redstone.setBundledOutput(outputSide,colors.white,15)
     redstone.setBundledOutput(outputSide,colors.orange,15)
     redstone.setBundledOutput(outputSide,colors.black,15)
+    computer.beep(1500,1)
     if value == nil then return 15 end
   end
   if state == false then
@@ -73,6 +74,7 @@ local function setAllStates(state,value)
     redstone.setBundledOutput(outputSide,colors.white,0)
     redstone.setBundledOutput(outputSide,colors.orange,0)
     redstone.setBundledOutput(outputSide,colors.black,0)
+    computer.beep(200,1)
     if value == nil then return 0 end
   end
   if value ~= nil and value < 16 then
