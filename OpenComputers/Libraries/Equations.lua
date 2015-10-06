@@ -30,13 +30,6 @@ end
 --Returns standard Acceleration towards earth, on earth, in metres per second.
 function functList.earthDownAccel() return -9.8 end
 
---solves quadraticFormula, based on a,b,c. Returns plus and minus solution.
-function functList.quadraticFormula(a,b,c)
-  local one = (-b+math.sqrt(b^2)-(4*a*c))/2*a
-  local two = (-b-math.sqrt(b^2)-(4*a*c))/2*a
-  return one, two
-end
-
 --circumference formula, provide diameter, returns circumference
 function functList.circumference(diameter)
   return math.pi*diameter
