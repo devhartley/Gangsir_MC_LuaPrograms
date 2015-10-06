@@ -1,7 +1,7 @@
 --[[
 Gangsir's mob farm controller
-Sirdabalot's gui framework required for use. Gui lib can be found at
-https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua
+This program uses TankNut's interface program. Download at
+https://github.com/OpenPrograms/MiscPrograms/blob/master/TankNut/interface.lua
 If an internet card is present, the program will auto-fetch it.
 To set up, connect a bundled redstone cable that OC supports to the computer,
 and set colours on other ends to be as follows:
@@ -42,19 +42,19 @@ print("If the gui messes up and starts turning things off and on again quickly, 
 os.sleep(8)
 
 --check for gui library
-if require("filesystem").exists("/lib/SOCGUIF.lua") then
-  gui = require("SOCGUIF")
+if require("filesystem").exists("/lib/interface.lua") then
+  gui = require("interface")
 elseif component.isAvailable("internet") then
   print("Gui lib not found, internet card installed, trying to auto-fetch.")
-  os.execute("wget https://raw.githubusercontent.com/sirdabalot/OCGUIFramework/master/SOCGUIF.lua /lib/SOCGUIF.lua")
+  os.execute("wget https://raw.githubusercontent.com/OpenPrograms/MiscPrograms/master/TankNut/interface.lua /lib/interface.lua")
   print("Computer needs to reboot to note changes to available libs, rebooting in 3 seconds...")
   os.sleep(3)
   computer.shutdown(true) --reboots the computer
 else
-  error("sirdabalot's GUI framework must be present and available to use this program. Download from his github, and place in /lib, or install an internet card.")
+  error("TankNut's GUI framework must be present and available to use this program. Download from his github at openprograms, and place in /lib, or install an internet card.")
 end
 
-if not require("filesystem").exists("/lib/SOCGUIF.lua") then --if the library is still unloadable
+if not require("filesystem").exists("/lib/interface.lua") then --if the library is still unloadable
   error("Still can't load the library, program won't work.")
 end
 
@@ -104,20 +104,22 @@ end
 --init gui
 setAllStates(false) --turns all outputs off
 
-window1 = window(point(0,0),maxX,maxY,"Buttons",0xFFFFFF,0x000000) --fill the whole screen with a window
-table.insert(windowTable,window1)
+--setup gui, button args are id,label,x,y,width,function,params,oncolour,offcolour
+gui.clearAllObjects()
+gui.newButton("mobspawner","Mob Spawner",5,2,17,9,function() toggle(colors.red) end,nil,0x00FF00,0xFF0000,true)
+gui.newButton("lights","Lights",5,14,17,9,function() toggle(colors.white) end,nil,0x00FF00,0xFF0000,true)
+gui.newButton("door","Door",27,2,17,9,function() toggle(colors.orange) end,nil,0x00FF00,0xFF0000,true)
+gui.newButton("kill","Killing",27,14,17,9,function() toggle(colors.black) end,nil,0x00FF00,0xFF0000,true)
 
---button args are window,startpoint,width,height,label,forecolour, backcolour,function
-msButton = button(window1,point(5,2),17,9,"Mob Spawner",0x000000,0xFF0000,function() toggle(colors.red) end) --top left
-lightsButton = button(window1,point(5,14),17,9,"Lights",0x000000,0xFFFFFF,function() toggle(colors.white) end) --bottom left
-doorButton = button(window1,point(27,2),17,9,"Door",0x000000,0x0000CC,function() toggle(colors.orange) end) --top middle
-killButton = button(window1,point(27,14),17,9,"Kill",0xFFFFFF,0x8E01E8,function() toggle(colors.black) end) --bottom middle
+gui.newButton("allon","All On",48,2,29,9,function() setAllStates(true) end,nil,0x00FF00,0xFF0000,true)
+gui.newButton("alloff","All Off",48,14,29,9,function() setAllStates(false) end,nil,0x00FF00,0xFF0000,true)
+gui.updateAll()
 
-allOn = button(window1,point(48,2),29,9,"All On",0xFFFFFF,0x00FF00,function() setAllStates(true) end)
-allOff = button(window1,point(48,14),29,9,"All Off",0xFFFFFF,0xFF0000,function() setAllStates(false) end)
-
-require("term").clear()
-
---show the gui
-GUILoop(0x000000)
+--check for clicks
+while true do
+    local _,_,x,y = event.pull("touch")
+    if x and y then
+        gui.processClick(x,y)
+    end
+end
 --eof
