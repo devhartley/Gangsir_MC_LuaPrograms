@@ -60,49 +60,23 @@ end
 
 --init all functions
 
---sets the state of all outputs, returns new output. Provide nil for state if setting to manual value
-local function setAllStates(state,value)
-  if state then
-    redstone.setBundledOutput(outputSide,colors.red,15)
-    redstone.setBundledOutput(outputSide,colors.white,15)
-    redstone.setBundledOutput(outputSide,colors.orange,15)
-    redstone.setBundledOutput(outputSide,colors.black,15)
-    computer.beep(1500,1)
-    if value == nil then return 15 end
-  end
-  if state == false then
-    redstone.setBundledOutput(outputSide,colors.red,0)
-    redstone.setBundledOutput(outputSide,colors.white,0)
-    redstone.setBundledOutput(outputSide,colors.orange,0)
-    redstone.setBundledOutput(outputSide,colors.black,0)
-    computer.beep(200,1)
-    if value == nil then return 0 end
-  end
-  if value ~= nil and value < 16 then
-    redstone.setBundledOutput(outputSide,colors.red,value)
-    redstone.setBundledOutput(outputSide,colors.white,value)
-    redstone.setBundledOutput(outputSide,colors.orange,value)
-    redstone.setBundledOutput(outputSide,colors.black,value)
-    return value
-  end
-end
-
 --toggles output on specified colour, returns boolean based on success
 local function toggle(color)
   if redstone.getBundledOutput(outputSide,color) == 15 then
     redstone.setBundledOutput(outputSide,color,0)
-    computer.beep(200,0.3)
     return true
   else
     redstone.setBundledOutput(outputSide,color,15)
-    computer.beep(1500,0.3)
     return true
   end
   return false
 end
 
 --init gui
-setAllStates(false) --turns all outputs off
+redstone.setBundledOutput(outputSide,colors.red,0)
+redstone.setBundledOutput(outputSide,colors.white,0)
+redstone.setBundledOutput(outputSide,colors.orange,0)
+redstone.setBundledOutput(outputSide,colors.black,0)
 
 --setup gui, button args are id,label,x,y,width,function,params,oncolour,offcolour
 gui.clearAllObjects()
@@ -110,14 +84,13 @@ gui.newButton("mobspawner","Mob Spawner",5,2,17,9,function() toggle(colors.red) 
 gui.newButton("lights","Lights",5,14,17,9,function() toggle(colors.white) end,nil,0x00FF00,0xFF0000,true)
 gui.newButton("door","Door",27,2,17,9,function() toggle(colors.orange) end,nil,0x00FF00,0xFF0000,true)
 gui.newButton("kill","Killing",27,14,17,9,function() toggle(colors.black) end,nil,0x00FF00,0xFF0000,true)
+API.newLabel("title","Mob Farm",0,0,maxX,3,color) --title label
 
-gui.newButton("allon","All On",48,2,29,9,function() setAllStates(true) end,nil,0x00FF00,0xFF0000,true)
-gui.newButton("alloff","All Off",48,14,29,9,function() setAllStates(false) end,nil,0x00FF00,0xFF0000,true)
 gui.updateAll()
 
 --check for clicks
 while true do
-    local _,_,x,y = event.pull("touch")
+    local _,_,x,y = require("event").pull("touch")
     if x and y then
         gui.processClick(x,y)
     end
