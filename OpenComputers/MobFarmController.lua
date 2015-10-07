@@ -75,18 +75,18 @@ end
 --init gui
 redstone.setBundledOutput(outputSide,colors.red,0)
 redstone.setBundledOutput(outputSide,colors.white,0)
-redstone.setBundledOutput(outputSide,colors.orange,0)
+redstone.setBundledOutput(outputSide,colors.orange,0) --set all outputs false
 redstone.setBundledOutput(outputSide,colors.black,0)
 
 --setup gui, button args are id,label,x,y,width,function,params,oncolour,offcolour
 gui.clearAllObjects()
-gui.newButton("mobspawner","Mob Spawner",5,2,17,9,function() toggle(colors.red) end,nil,0x00FF00,0xFF0000,true)
-gui.newButton("lights","Lights",5,14,17,9,function() toggle(colors.white) end,nil,0x00FF00,0xFF0000,true)
-gui.newButton("door","Door",27,2,17,9,function() toggle(colors.orange) end,nil,0x00FF00,0xFF0000,true)
-gui.newButton("kill","Killing",27,14,17,9,function() toggle(colors.black) end,nil,0x00FF00,0xFF0000,true)
-API.newLabel("title","Mob Farm",0,0,maxX,3,color) --title label
+gui.newButton("mobspawner","Mob Spawner",3,6,33,7,function() toggle(colors.red) end,nil,0x00FF00,0xFF0000,true)
+gui.newButton("lights","Lights",3,15,33,7,function() toggle(colors.white) end,nil,0x00FF00,0xFF0000,true)
+gui.newButton("door","Door",46,6,33,7,function() toggle(colors.orange) end,nil,0x00FF00,0xFF0000,true)
+gui.newButton("kill","Killing",46,15,33,7,function() toggle(colors.black) end,nil,0x00FF00,0xFF0000,true)
+gui.newLabel("title","Mob Farm",0,0,maxX,3,0x0000FF) --title label
 
-gui.updateAll()
+gui.updateAll() --draws the screen
 
 --check for clicks
 while true do
