@@ -1,4 +1,5 @@
 --[[
+THIS PROGRAM IS NOW DEPRECATED, AVOID USING AS MANY THINGS ARE PROBABLY BROKEN.
 Gangsir's base info getter OpenComputers port
 Not all must be connected, as the program will limit itself to only what is present.
 Needs at least 1.5 tier RAM.
