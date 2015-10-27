@@ -12,6 +12,8 @@ Writes file to /usr/misc/clientAddress.txt by default
 local term = require("term")
 local component = require("component")
 local os = require("os")
+local computer = require("computer")
+local math = require("math")
 port = 21481 --port the wireless part should use
 gui = nil
 
@@ -24,6 +26,7 @@ hasPowerBank = false
 hasReactor = false
 hasTank=false
 hasModem = false
+--wireless variables
 tabletAddress = ""
 filePath = "/usr/misc/clientAddress.txt"
 
@@ -43,7 +46,7 @@ elseif component.isAvailable("internet") then
   os.execute("wget https://raw.githubusercontent.com/OpenPrograms/MiscPrograms/master/TankNut/interface.lua /lib/interface.lua")
   print("Computer needs to reboot to note changes to available libs, rebooting in 3 seconds...")
   os.sleep(3)
-  require("computer").shutdown(true) --reboots the computer
+  computer.shutdown(true) --reboots the computer
 else
   error("TankNut's GUI framework must be present and available to use this program. Download from his github at openprograms, and place in /lib, or install an internet card.")
 end
@@ -74,7 +77,7 @@ function setupTablet()
   end
 end
 
---begin program
+--begin program --------------------------------------------------------
 local pargs = {...}
 local refreshrate=tonumber(pargs[1]) or 5 --allows setting to a lower refresh rate to reduce strain, 5 if not specified
 
@@ -83,7 +86,7 @@ print("Base info running...") --intro screen
 print("Initialising program and scanning components...")
 --Check for connected components.
 if component.isAvailable("modem") then
-  print("Network Card found.")
+   print("Network Card found.")
    hasModem = true
    modem = component.modem
    modem.open(port)
@@ -109,7 +112,7 @@ if ecAdd ~= nil then
   hasPowerBank = true
   print("Mekanism(tm) energy cube found.")
 end
-
+--find thermal expansion cells as pow storage
 for tempaddress,type in component.list("tile_thermalexpansion_cell") do ecAdd = tempaddress end --check for anything called tile_thermalexpansion_cell
 if ecAdd ~= nil then
   cap1 = component.proxy(ecAdd)
@@ -134,10 +137,14 @@ if component.isAvailable("portable_tank") then --check if a portable tank is con
   tank = component.portable_tank --access the tank
 end
 
-os.sleep(2) --sleep to allow reading of init page
+
+os.sleep(7) --sleep to allow reading of init page
 
 --setup for gui
 gui.clearAllObjects()
+
+term.setCursor(1,1)
+print("Loading...")
 --energy
 gui.newLabel("totpow","Total Power: ",0,0,maxX,1,0xFF0000)
 gui.newLabel("reactpow","Reactor Power: ",0,3,maxX,1,0xFF0000)
@@ -152,20 +159,22 @@ gui.newLabel("barbanner","Tank Percentage Full Bar",0,18,maxX,1,0x0000FF)
 gui.newBar("tankbar",5,19,maxX-10,1,0x333333,0xCCCCCC,0) --tank progress bar
 --alerts
 gui.newLabel("alertsbanner","Alerts: ----------------",0,21,maxX,1,0x000000)
-gui.newLabel("reactfuel","",0,23,maxX,1,0x000000)
-gui.newLabel("powstorelow","",0,25,maxX,1,0x000000)
-
+gui.newLabel("reactfuel","",0,22,maxX,1,0x000000)
+gui.newLabel("powstorelow","",0,23,maxX,1,0x000000)
+--time
+gui.newLabel("ingametime","",0,25,maxX,1,0x333333) --ingame time display
 
 --Define functions
+
+
 function scanTank()
-  term.setCursor(1,11)
   name = nil
   amount = nil --flush data
   info = nil
 
   info = tank.getTankInfo()
 
-  --use pcall so code doesn't crash with empty tank (Really shouldn't crash, just print nil, but that's just my opinion)
+  --use pcall so code doesn't crash with empty tank
   pcall(function() name = info[1]["contents"]["rawName"] or nil end)
   if name == nil then --if tank liquid name is nil, thus is empty/invalid fluid
    gui.setLabelText("contents","Current Tank Contents: Tank is Empty.")
@@ -190,8 +199,7 @@ function scanTank()
 end
 
 function manageReactor() --manage the reactor
-  react.setActive(true)
-  react.setAllControlRodLevels(require("math").floor(react.getEnergyStored()/100000)) --adjusts the fuel rods based on stored energy
+  react.setAllControlRodLevels(math.floor(react.getEnergyStored()/100000)) --adjusts the fuel rods based on stored energy
 end
 
 function alerts() --shows any problems with connected components
@@ -199,7 +207,7 @@ function alerts() --shows any problems with connected components
  if hasReactor then --only alert if reactor is present
   if react.getFuelAmount() < react.getFuelAmountMax()-react.getWasteAmount() then
    gui.setLabelText("reactfuel","Reactor needs fuel!") --if the reactor is low on fuel, or very full of waste
-   require("computer").beep(100,1) --beep to alert players
+   computer.beep(100,1) --beep to alert players
    if hasModem then modem.send(tabletAddress,port,"REACTOR NEEDS FUEL",false,true) end --alerts the tablet user that the reactor needs fuel
   else
     gui.setLabelText("reactfuel","") --remove warning
@@ -210,7 +218,7 @@ function alerts() --shows any problems with connected components
  if hasPowerBank then --only alert if power bank is present
   if cap1.getEnergyStored()<(cap1.getMaxEnergyStored()/10) then --if capacitor bank is nearly empty, <10% left
    gui.setLabelText("powstorelow","Power Storage is low!")
-   require("computer").beep(100,1)
+   computer.beep(100,1)
    if hasModem then modem.send(tabletAddress,port,"POWER STORAGE LOW",false,true) end --alerts the tablet user that the reactor needs fuel
   else
     gui.setLabelText("powstorelow","") --remove warning
@@ -222,11 +230,12 @@ end --function alerts
 function refresh() --refreshes the screen with new data
  if hasReactor and hasPowerBank then
   local totalPow = cap1.getEnergyStored()+react.getEnergyStored()
-  gui.setLabelText("totpow","Total Power: "..tostring(totalPow))
+  local totalPowS = "Total Power: "..tostring(math.floor(totalPow))
+  gui.setLabelText("totpow",totalPowS)
   if hasModem then modem.send(tabletAddress,port,totalPowS) end
  end
  if hasReactor then
-  local reactPow = "Reactor Power: "..react.getEnergyStored()
+  local reactPow = "Reactor Power: "..tostring(math.floor(react.getEnergyStored()))
   gui.setLabelText("reactpow",reactPow)
   if hasModem then modem.send(tabletAddress,port,reactPow) end
 
@@ -234,13 +243,13 @@ function refresh() --refreshes the screen with new data
   gui.setLabelText("reacton",reactOn)
   if hasModem then modem.send(tabletAddress,port,reactOn) end
 
-  local currentPowerTick = "Current power per tick: "..react.getEnergyProducedLastTick()
+  local currentPowerTick = "Current power per tick: "..tostring(math.floor(react.getEnergyProducedLastTick()))
   gui.setLabelText("powatick",currentPowerTick)
   if hasModem then modem.send(tabletAddress,port,currentPowerTick) end
  end --if hasReactor
- if hasPowerBank then
 
-  local powerStore = "Power Storage: "..cap1.getEnergyStored()
+ if hasPowerBank then
+  local powerStore = "Power Storage: "..tostring(math.floor(cap1.getEnergyStored()))
   gui.setLabelText("powstorage",powerStore)
   if hasModem then modem.send(tabletAddress,port,powerStore) end
  end --if hasPowerBank
@@ -249,6 +258,7 @@ end --function refresh
 while true do
   --get new data for everything
  os.sleep(refreshrate) --wait for specified time
+ gui.setLabelText("ingametime",tostring(os.date("Current Minecraft Time(24hr): %X %p"))) --update ingame time
  if hasModem then modem.send(tabletAddress,port,"",true) end --clear the tablet
  refresh()
  alerts()
