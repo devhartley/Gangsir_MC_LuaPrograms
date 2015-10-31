@@ -117,7 +117,7 @@ for tempaddress,type in component.list("tile_thermalexpansion_cell") do ecAdd = 
 if ecAdd ~= nil then
   cap1 = component.proxy(ecAdd)
   hasPowerBank = true
-  print("Thermal expansion energy cell found.")
+  print("Thermal expansion(tm) energy cell found.")
 end
 
 --Check if a tank is connected
@@ -127,12 +127,12 @@ if component.isAvailable("drum") then --check if a drum is connected
   tank = component.drum --access the drum
 end
 if component.isAvailable("tank") then --check if a tank is connected
-  print("Ender IO(tm) fluid tank Found.")
+  print("Ender IO(tm) fluid tank found.")
   hasTank=true
   tank = component.tank --access the tank
 end
 if component.isAvailable("portable_tank") then --check if a portable tank is connected
-  print("Mekanism(tm) portable tank Found.")
+  print("Mekanism(tm) portable tank found.")
   hasTank=true
   tank = component.portable_tank --access the tank
 end
@@ -147,12 +147,12 @@ term.setCursor(1,1)
 print("Loading...")
 --energy
 gui.newLabel("totpow","Total Power: ",0,0,maxX,1,0xFF0000)
-gui.newLabel("reactpow","Reactor Power: ",0,3,maxX,1,0xFF0000)
-gui.newLabel("reacton","Reactor Running: ",0,5,maxX,1,0xFF0000)
-gui.newLabel("powatick","Power Per Tick: ",0,7,maxX,1,0xFF0000)
-gui.newLabel("powstorage","Power Storage: ",0,9,maxX,1,0xFF0000)
+gui.newLabel("reactpow","Reactor Power: No Reactor",0,3,maxX,1,0xFF0000)
+gui.newLabel("reacton","Reactor Running: No Reactor",0,5,maxX,1,0xFF0000)
+gui.newLabel("powatick","Power Per Tick: No Reactor",0,7,maxX,1,0xFF0000)
+gui.newLabel("powstorage","Power Storage: No Power Storage",0,9,maxX,1,0xFF0000)
 --tank
-gui.newLabel("contents","Current Tank Contents:",0,11,maxX,1,0x0000FF)
+gui.newLabel("contents","Current Tank Contents: No Tank.",0,11,maxX,1,0x0000FF)
 gui.newLabel("amount","Amount:",0,13,maxX,1,0x0000FF)
 gui.newLabel("percentfill","Percent Filled:",0,15,maxX,1,0x0000FF)
 gui.newLabel("barbanner","Tank Percentage Full Bar",0,18,maxX,1,0x0000FF)
@@ -258,7 +258,7 @@ end --function refresh
 while true do
   --get new data for everything
  os.sleep(refreshrate) --wait for specified time
- gui.setLabelText("ingametime",tostring(os.date("Current Minecraft Time(24hr): %X %p"))) --update ingame time
+ gui.setLabelText("ingametime",tostring(os.date("Current Minecraft Time(24hr): %X"))) --update ingame time
  if hasModem then modem.send(tabletAddress,port,"",true) end --clear the tablet
  refresh()
  alerts()
