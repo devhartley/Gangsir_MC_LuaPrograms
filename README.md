@@ -56,7 +56,9 @@ card.
 
 ***-OpenComputers Big reactor controller***
 
-This is an opencomputers port of my Big reactors controller.
+This is a simple headless big reactors controller, that keeps it from filling up it's buffer
+and adjusts it's production according to use. Runs without user interface, graphics not needed.
+Emits rapid beeping if reactor gets low on fuel.
 
 ***Jerky Automater***
 
