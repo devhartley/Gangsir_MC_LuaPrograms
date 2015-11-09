@@ -113,6 +113,11 @@ To set up, connect a bundled redstone cable that OC supports to the computer,
 and set colours on other ends to be as follows: Red:Mob spawner, White:Lights, Orange:Door, Black:Killing Method
 I recommend using some type of wireless redstone to avoid having to place cables everywhere.
 
+***-Modem port manager***
+
+A simple program to manage ports of a modem card. Lists all open ports, and
+allows closing and opening of said ports. Text based.
+
 ###OpenComputers Microcontroller Programs
 
 ***-S.L.D.R.R.***
