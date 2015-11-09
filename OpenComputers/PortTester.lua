@@ -13,7 +13,10 @@ if not component.isAvailable("modem") then error("Need some kind of modem card i
 local pargs = {...}
 local lower = pargs[1] or 1
 local upper = pargs[2] or 65535
-if lower <1 or lower>upper then lower = 1 end --sanity checking
+--sanity checking
+lower = tonumber(lower) or 1
+upper = tonumber(upper) or 65535
+if lower <1 or lower>upper then lower = 1 end
 if upper > 65535 or upper < lower then upper = 65535 end
 
 
@@ -21,7 +24,7 @@ modem = component.modem
 io = require("io")
 numFoundPorts = 0
 
-print("Listing all open ports between "..lower.." and "..upper..". This should only take a bit, depending on your computer...")
+print("Listing all open ports between "..lower.." and "..upper..". This will take time, depending on your computer and search range...")
 
 --define functions
 --open ports
@@ -34,7 +37,7 @@ function openSomePorts()
       local openPort = io.read()
       if openPort == "exit" then
         print("Stopped opening ports.")
-        break
+        return
       elseif type(tonumber(openPort)) == "number" then
         local success = modem.open(tonumber(openPort))
         if not success then
@@ -58,7 +61,7 @@ function closeSomePorts()
       if closePort == "all" then
         modem.close()
         print("Closed all ports.")
-        break
+        return
       elseif closePort == "exit" then
         print("Stopped closing ports.")
         break
