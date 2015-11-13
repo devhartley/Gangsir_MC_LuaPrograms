@@ -5,8 +5,7 @@ by `Sangar`, and works similarly to Computercraft, but with more features.
 
 All of these are mine, however some use APIs written by others. The needed APIs can be found in comments of the program
 in question, or in the Explanations section for the program below. I generally try to avoid using libraries that are not
-standard
-to openOS.
+standard to the OS provided by the mod.
 
 If you use any of these programs, please follow the MIT license and give credit if using them publicly. Also feel free to
 modify my programs for *personal use.*
@@ -15,7 +14,7 @@ modify my programs for *personal use.*
 
 ###Computercraft
 Note: The author is currently focused on OpenComputers, so many of these programs have not been touched in several
-months. A few of them are especially old, so they may not work in the most effective way possible.
+months. A few of them are especially old, so they may not work in the most effective way possible/at all.
 
 
 ***-Botania Endoflame Automation***
@@ -73,7 +72,6 @@ internet card.
 
 This is a simple headless big reactors controller, that keeps it from filling up it's buffer
 and adjusts it's production according to use. Runs without user interface, graphics not needed.
-Emits rapid beeping if reactor gets low on fuel.
 
 ***Jerky Automater***
 
@@ -115,8 +113,7 @@ Causes high power usage when using tier 3 screens, so plan accordingly, a power 
 ***-Motion sensor base welcomer***
 
 This is a program that uses data from a motion sensor to display a welcome message to the entity that triggered it.
-Requires a
-motion detector.
+Requires a motion detector.
 
 ***-Screen welcome mat***
 
