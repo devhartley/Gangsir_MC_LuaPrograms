@@ -105,6 +105,12 @@ if component.isAvailable("tile_blockcapacitorbank_name") then
   cap1 = component.tile_blockcapacitorbank_name
   hasPowerBank =true
 end
+if component.isAvailable("capacitor_bank") then --future proofing for ender io
+  print("Ender IO(tm) Capacitor bank found.")
+  cap1 = component.capacitor_bank
+  hasPowerBank =true
+end
+
 --find mekanism energy cubes, as power storage
 for tempaddress,type in component.list("energy_cube") do ecAdd = tempaddress end --check for anything called energy_cube
 if ecAdd ~= nil then
