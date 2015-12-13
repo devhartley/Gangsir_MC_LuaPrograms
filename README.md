@@ -7,7 +7,7 @@ All of these are mine, however some use APIs written by others. The needed APIs 
 in question, or in the Explanations section for the program below. I generally try to avoid using libraries that are not
 standard to the OS provided by the mod.
 
-If you use any of these programs, please follow the MIT license and give credit if using them publicly. Also feel free to
+If you use any of these programs, please follow the GPL License and give credit if using them publicly. Also feel free to
 modify my programs for *personal use.*
 
 #Explanations
@@ -145,6 +145,11 @@ I recommend using some type of wireless redstone to avoid having to place cables
 
 A simple program to manage ports of a modem card. Lists all open ports, and
 allows closing and opening of said ports. Text based.
+
+***-Proximity Door***
+
+A simple script that opens a door when an entity from a list provided on launch triggers and attached
+motion detector. Outputs redstone on the top of the computer or redstone io block.
 
 ###OpenComputers Microcontroller Programs
 
