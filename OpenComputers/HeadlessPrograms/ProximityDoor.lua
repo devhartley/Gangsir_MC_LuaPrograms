@@ -78,7 +78,7 @@ print("Program setup complete. You may now remove all graphics components. Door 
 while true do
   local _,_,x,y,z,entity = event.pull("motion")
   if math.abs(x)<= tonumber(range) and math.abs(y)<= tonumber(range) and math.abs(z)<= tonumber(range) then --if recieved motion was within range
-    if options.a or allowed[entity] or banned[entity]==nil then --if entity is on whitelist, or accept all mode is on, or not banned
+    if options.a or allowed[entity] or (options.b and banned[entity]==nil) then --if entity is on whitelist, or accept all mode is on, or not banned
       toggleRedstone()
       os.sleep(stayOpen) --manipulate door
       toggleRedstone()
