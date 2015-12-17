@@ -46,7 +46,8 @@ if not options.a then --if not accept all mode
       print("Allowed: "..name) --print the name of the registered entity
     end
   else --whitelist acts as blacklist
-    print("Running in blacklist mode, blacklisting all provided entity names...")    for _,name in pairs(acceptableEntities) do
+    print("Running in blacklist mode, blacklisting all provided entity names...") 
+   for _,name in pairs(acceptableEntities) do
       banned[name] = true --set value in table to true, for quick lookup later
       print("Banned: "..name) --print the name of the registered entity
     end
