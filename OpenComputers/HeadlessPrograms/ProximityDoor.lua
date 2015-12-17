@@ -41,13 +41,12 @@ if not options.a then --if not accept all mode
   print("Listing names of provided entities: ")
   --add list of players to lookup list
   if not options.b then --if using list as whitelist
-    print("Running in blacklist mode, blacklisting all provided entity names...")
     for _,name in pairs(acceptableEntities) do
       allowed[name] = true --set value in table to true, for quick lookup later
       print("Allowed: "..name) --print the name of the registered entity
     end
   else --whitelist acts as blacklist
-    for _,name in pairs(acceptableEntities) do
+    print("Running in blacklist mode, blacklisting all provided entity names...")    for _,name in pairs(acceptableEntities) do
       banned[name] = true --set value in table to true, for quick lookup later
       print("Banned: "..name) --print the name of the registered entity
     end
