@@ -12,6 +12,8 @@ local term = require("term")
 local component = require("component")
 local gpu = component.gpu
 local event = require("event")
+local os = require("os")
+
 running = true --should the program keep running
 
 --list of characters to pick from (More can be added)
